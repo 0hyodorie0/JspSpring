@@ -10,6 +10,12 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 //Convention over Configuration
+/**
+ * 서블릿
+ *  : 자바를 기반으로 웹상의 요청을 처리할 수 있는 객체에 대한 조건의 집합
+ *  동적 요청 분석 + 동적 응답 생성
+ *
+ */
 @WebServlet("/desc")
 public class DescriptionServlet extends HttpServlet{
 
