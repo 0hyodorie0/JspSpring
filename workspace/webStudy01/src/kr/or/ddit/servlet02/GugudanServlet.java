@@ -1,9 +1,5 @@
 package kr.or.ddit.servlet02;
-<<<<<<< Updated upstream
 
-public class GugudanServlet {
-
-=======
 /**
  * 1. /02/gugudan.do 요청이 발생하면,
  * 2. 2단부터 9단까지 승수(1~9)에 따라 구구단 컨텐츠 제공.
@@ -14,6 +10,7 @@ public class GugudanServlet {
  *
  */
 public class GugudanServlet {
+
+
 	
->>>>>>> Stashed changes
 }
