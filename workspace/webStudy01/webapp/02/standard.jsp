@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ page  %>
+<%@ page import="java.util.*" trimDirectiveWhitespaces="true" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -8,7 +8,7 @@
 <title>02/standard.jsp</title>
 </head>
 <body>
-
+<h4>표준 JSP 구성 요소 : 템플릿 기반의 스크립트 언어 형태를 가진 스펙.</h4>
 <pre>
 	1. 정적 텍스트 : HTML, CSS, Javascript, 문자열...
 	2. 동적 스크립ㅌ 요소(background 동작, server-side 실행 구조)
@@ -23,7 +23,7 @@
 			taglib : 커스텀 태그 라이브러리 로딩
 		3) expression : &lt;%=출력값%&gt;
 			<%=sample %>
-		4) declaration
+		4) declaration : &lt;%! 변수나 메소드에 대한 선언. %&gt;
 		5) comment
 </pre>
 </body>
