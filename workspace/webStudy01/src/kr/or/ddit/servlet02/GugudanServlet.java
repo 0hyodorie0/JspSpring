@@ -1,6 +1,8 @@
 package kr.or.ddit.servlet02;
 
 import java.io.IOException;
+import java.io.PrintWriter;
+import java.util.Calendar;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -21,7 +23,33 @@ import javax.servlet.http.HttpServletResponse;
 public class GugudanServlet extends HttpServlet {
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		
+		String mime = "text/html; charset=UTF-8";
+		resp.setContentType(mime);
+		StringBuffer html = new StringBuffer();
+		html.append("<html>           \n");
+		html.append("	<body>        \n");
+		Calendar now = Calendar.getInstance();
+		html.append(String.format("		<h4>%tc</h4> \n", now));
+		html.append("		<table>   \n");
+		for(int dan = 2; dan <= 9; dan++) {
+			html.append("<tr>\n");
+			for(int mul = 1; mul <= 9; mul++) {
+				html.append(String.format("<td>%d*%d=%d</td>\n", dan, mul, dan*mul));
+			}
+			html.append("</tr>\n");
+		}
+		html.append("		</table>  \n");
+		html.append("	</body>       \n");
+		html.append("</html>          \n");
+		PrintWriter out = null;
+		try {
+			out = resp.getWriter();
+			out.print(html);			
+		}finally {
+			if(out!=null) {
+				out.close();
+			}
+		}
 	}
 	
 

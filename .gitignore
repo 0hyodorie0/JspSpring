@@ -121,8 +121,10 @@ $RECYCLE.BIN/
 *.lnk
 
 # End of https://www.toptal.com/developers/gitignore/api/java,eclipse,windows
+<<<<<<< HEAD
 workspace/.metadata/.plugins/org.eclipse.core.resources/.safetable/org.eclipse.core.resources
 workspace/.metadata/.plugins/org.eclipse.e4.workbench/workbench.xmi
+<<<<<<< HEAD
 workspace/.metadata/.plugins/org.eclipse.m2e.logback.configuration/0.log
 workspace/.metadata/.plugins/org.eclipse.e4.workbench/workbench.xmi
 workspace/.metadata/.lock
@@ -210,7 +212,7 @@ workspace/.metadata/.plugins/org.eclipse.wst.sse.core/task-tags.properties
 workspace/.metadata/.plugins/org.springframework.ide.eclipse.beans.core.metadata/metadata/.state
 workspace/.metadata/.plugins/org.springframework.ide.eclipse.beans.core.metadata/properties/.state
 workspace/.metadata/version.ini
-*.resources
-workspace/.metadata/.plugins/org.eclipse.core.resources/.safetable/org.eclipse.core.resources
-workspace/.metadata/.plugins/org.eclipse.e4.workbench/workbench.xmi
-workspace/.metadata/.plugins/org.eclipse.wst.jsdt.core/externalLibsTimeStamps
+=======
+>>>>>>> parent of d51de09 (update gitignore)
+=======
+>>>>>>> parent of 200ea10 (update gitignore)
