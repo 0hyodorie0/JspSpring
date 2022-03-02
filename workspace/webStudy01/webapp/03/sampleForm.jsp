@@ -9,10 +9,10 @@
 <body>
 <h4> 입력 양식 </h4>
 <!-- 이름, 생일, 나이, 전공, 자격증, 경력사항, 취미 -->
-<form action="">
+<form action="<%=request.getContextPath() %>/03/sampleProcess.do" method="post">
 	<ul>
 		<li>
-			이름 : <input type="text" name="name" />
+			이름 : <input type="text" name="name" required />
 		</li>
 		<li>
 			생일 : <input type="date" name="birth" />
@@ -22,12 +22,28 @@
 		</li>
 		<li>
 			학력 :
-			 <select name="grade">
-			 	<option>고졸</option>
-			 	<option>대졸</option>
-			 	<option>석사</option>
-			 	<option>박사</option>
+			 <select name="grade" required>
+			 	<option value>학력</option>
+			 	<option value="G001">고졸</option>
+			 	<option value="G002">대졸</option>
+			 	<option value="G003">석사</option>
+			 	<option value="G004">박사</option>
 			 </select>
+		</li>
+		<li>
+			자격증:
+			<select name="license" multiple size="10">
+				<option value="L001">정보처리 산업기사</option>
+				<option value="L002">정보처리기사</option>
+				<option value="L003">정보보안산업기사</option>
+				<option value="L004">정보보안기사</option>
+				<option value="L005">SQLD</option>
+				<option value="L006">SQLP</option>
+			</select>
+		</li>
+		<li>
+			경력사항:
+			
 		</li>
 	</ul>
 </form>
