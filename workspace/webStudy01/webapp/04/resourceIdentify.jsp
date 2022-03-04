@@ -5,6 +5,12 @@
 <head>
 <meta charset="UTF-8">
 <title>04/resourceIdentify.jsp</title>
+<style>
+	img{
+		width:100px;
+		height:100px;
+	}
+</style>
 </head>
 <body>
 	<h4>자원의 종류와 식별 방법</h4>
@@ -20,6 +26,13 @@
 		URL(Uniform Resource Locator) 
 		URN(Uniform Resource Name)
 		URC(Uniform Resource Content)
+		
+		URL : http://IP[domain]:port
 	</pre>
+	<img src=""/>
+	<img src="<%=request.getContextPath() %>/resources/images/flower-1.jpg"/>
+	<img src="/webStudy01/resources/images/flower-1.jpg"/>
+	<img src="//localhost/webStudy01/resources/images/flower-1.jpg"/>
+	<img src="http://localhost/webStudy01/resources/images/flower-1.jpg"/>
 </body>
 </html>
