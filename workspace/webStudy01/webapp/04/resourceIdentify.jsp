@@ -28,8 +28,14 @@
 		URC(Uniform Resource Content)
 		
 		URL : http://IP[domain]:port
+		
+		절대경로
+			1) client side : contentPath를 포함한 이후의 경로.
+			2) server side : contentPath 이후의 경로.
+		상대경로 : 현재 위치를 기준으로 자원의 경로 표현.
 	</pre>
-	<img src=""/>
+	<img src="../resources/images/flower-1.jpg"/>
+	<img src="/resources/images/flower-1.jpg/resources/images/flower-1.jpg"/>
 	<img src="<%=request.getContextPath() %>/resources/images/flower-1.jpg"/>
 	<img src="/webStudy01/resources/images/flower-1.jpg"/>
 	<img src="//localhost/webStudy01/resources/images/flower-1.jpg"/>
