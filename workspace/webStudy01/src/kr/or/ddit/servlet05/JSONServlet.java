@@ -12,6 +12,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 @WebServlet("/toJSON")
 public class JSONServlet extends HttpServlet{
 	@Override
@@ -19,8 +21,8 @@ public class JSONServlet extends HttpServlet{
 		resp.setContentType("application/json");
 		Map<String, Object> target = new HashMap<>();
 		Enumeration<String> names = req.getAttributeNames();
-		while(names.hasMoreElements()) {
-			String key = (String)names.nextElement();
+		while (names.hasMoreElements()) {
+			String key = (String) names.nextElement();
 			Object value = req.getAttribute(key);
 			target.put(key, value);
 		}
@@ -28,7 +30,26 @@ public class JSONServlet extends HttpServlet{
 			PrintWriter out = resp.getWriter();	
 		){
 			ObjectMapper mapper = new ObjectMapper();
-			mapper
+			mapper.writeValue(out, target); 
 		}
+		
 	}
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
