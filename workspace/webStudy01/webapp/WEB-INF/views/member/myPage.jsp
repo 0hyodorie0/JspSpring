@@ -1,3 +1,4 @@
+<%@page import="org.apache.commons.lang3.StringUtils"%>
 <%@page import="kr.or.ddit.vo.MemberVO"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
@@ -6,6 +7,21 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+
+<jsp:include page="/includee/preScript.jsp" />
+
+<%
+	String message = (String) session.getAttribute("message");
+	if(StringUtils.isNotBlank(message)){
+		%>
+		<script>
+			alert("<%=message %>");
+		</script>
+		<%
+		session.removeAttribute("message"); // flash attribute
+	}
+%>
+
 </head>
 <body>
 <%
@@ -88,6 +104,59 @@
 			<th>탈퇴여부</th>
 			<td><%=member.getMemDelete() %></td>
 		</tr>
+		<tr>
+			<td colspan="2">
+				<input type="button" value="수정"/>
+				<input type="button" value="탈퇴" id="delBtn" 
+					class="btn btn-primary" 
+				/>
+			</td>
+		</tr>
 	</table>
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <form method="post" action="${pageContext.request.contextPath }/member/memberDelete.do">
+	      <div class="modal-body">
+	        	비밀번호 : <input type="password" name="memPass" class="form-control"/>
+	      </div>
+	      <div class="modal-footer">
+	        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+	        <button type="submit" class="btn btn-danger">탈퇴</button>
+	      </div>
+      </form>
+    </div>
+  </div>
+</div>
+	<script type="text/javascript">
+		$("#delBtn").on("click", function(){
+			exampleModal.modal('show');
+		});
+
+		let exampleModal = $("#exampleModal").on("hidden.bs.modal", function(){
+			$(this).find("form")[0].reset();
+		});
+	</script>
+	<jsp:include page="/includee/postScript.jsp" />
 </body>
 </html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+

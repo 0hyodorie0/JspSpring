@@ -51,9 +51,9 @@ public class DataMapperUtils {
 					Object propValue = null;
 					if(propType.equals(String.class)) {
 						propValue = rs.getString(name);
-					}else if(propType.equals(Boolean.class)){
+					}else if(propType.equals(Boolean.class)) {
 						propValue = rs.getBoolean(name);
-					} else {
+					}else {
 						propValue = rs.getInt(name);
 					}
 					setter.invoke(result, propValue);

@@ -3,6 +3,7 @@ package kr.or.ddit.member.service;
 import kr.or.ddit.enumpkg.ServiceResult;
 import kr.or.ddit.member.dao.MemberDAO;
 import kr.or.ddit.member.dao.MemberDAOImpl;
+import kr.or.ddit.utils.PasswordUtils;
 import kr.or.ddit.vo.MemberVO;
 
 public class AuthencticateServiceImpl implements AuthenticateService {
@@ -15,7 +16,7 @@ public class AuthencticateServiceImpl implements AuthenticateService {
 		if(saved!=null) {
 			String inputPass = input.getMemPass();
 			String savedPass = saved.getMemPass();
-			if(savedPass.equals(inputPass)) {
+			if(PasswordUtils.passwordMatcher(inputPass, savedPass)) {
 				retValue = saved;
 			}else {
 				retValue = ServiceResult.INVALIDPASSWORD;	
