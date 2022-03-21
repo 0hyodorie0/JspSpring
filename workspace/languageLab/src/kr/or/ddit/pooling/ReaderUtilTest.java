@@ -4,6 +4,8 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+
+import org.apache.tomcat.dbcp.pool2.impl.GenericObjectPool;
 /**
  * 
  * IO (stream handling)
@@ -40,7 +42,10 @@ public class ReaderUtilTest {
 				InputStreamReader reader = new InputStreamReader(is, "MS949");
 				BufferedReader br = new BufferedReader(reader);
 				){
-				ReaderUtil util = new ReaderUtil();
+//				ReaderUtil util = new ReaderUtil();
+				StringBufferFactory factory = new StringBufferFactory();
+				GenericObjectPool<StringBuffer> pool = new GenericObjectPool<>(factory);
+				ReaderUtilUsePool util = new ReaderUtilUsePool(pool);
 				String data = util.readToString(br);
 				System.out.println(data);
 		}catch (IOException e) {

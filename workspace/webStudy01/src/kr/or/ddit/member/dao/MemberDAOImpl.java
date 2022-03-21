@@ -89,8 +89,17 @@ public class MemberDAOImpl implements MemberDAO {
 
 	@Override
 	public int deleteMember(String memId) {
-		// TODO Auto-generated method stub
-		return 0;
+		try(
+				Connection conn = ConnectionFactory.getConnection();
+				PreparedStatement pstmt = sqlMapper.generatePreparedStatement(conn, 
+										"kr.or.ddit.member.dao.MemberDAO.selectMember");
+			){
+				pstmt.setString(1, memId);
+				return pstmt.executeUpdate();
+				
+			}catch (SQLException e) {
+				throw new RuntimeException(e);
+			}
 	}
 
 }
