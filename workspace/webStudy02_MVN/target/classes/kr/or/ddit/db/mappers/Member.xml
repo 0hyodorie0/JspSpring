@@ -4,7 +4,7 @@
 	<entry key="kr.or.ddit.member.dao.MemberDAO.selectMemberForAuth">
 		SELECT MEM_ID, MEM_PASS, MEM_NAME, MEM_MAIL 
 		FROM MEMBER  
-		WHERE MEM_ID = ? AND MEM_DELETE IS NULL
+		WHERE MEM_ID = ?
 	</entry>
 	<entry key="kr.or.ddit.member.dao.MemberDAO.selectMemberList">
 		SELECT ROWNUM RNUM, A.*
@@ -27,26 +27,4 @@
 		 FROM    MEMBER                                                            
 		 WHERE MEM_ID = ?                                                          
 	</entry>
-	<entry key="kr.or.ddit.member.dao.MemberDAO.deleteMember">
-		UPDATE MEMBER
-		SET
-		MEM_DELETE = '1'
-		WHERE MEM_ID = ?
-	</entry>
 </properties>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

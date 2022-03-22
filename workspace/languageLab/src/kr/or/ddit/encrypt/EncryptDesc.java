@@ -14,7 +14,7 @@ import java.util.Base64;
  */
 public class EncryptDesc {
 	public static void main(String[] args) throws Exception{
-		String plain = "1004";
+		String plain = "java";
 		MessageDigest md = MessageDigest.getInstance("SHA-512");
 		byte[] encrypted = md.digest(plain.getBytes());
 		System.out.println(encrypted.length*8);
