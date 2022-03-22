@@ -1,22 +1,25 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
-<properties>
-	<entry key="kr.or.ddit.member.dao.MemberDAO.selectMemberForAuth">
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.or.ddit.member.dao.MemberDAO">
+
+	<select id="selectMemberForAuth" parameterType="MemberVO" resultType="MemberVO">
 		SELECT MEM_ID, MEM_PASS, MEM_NAME, MEM_MAIL 
 		FROM MEMBER  
-		WHERE MEM_ID = ?
-	</entry>
-	<entry key="kr.or.ddit.member.dao.MemberDAO.selectMemberList">
+		WHERE MEM_ID = #{memId} AND MEM_DELETE IS NULL
+	</select>
+	
+	<select id="selectMemberList" resultType="MemberVO">
 		SELECT ROWNUM RNUM, A.*
 		FROM(
 		    SELECT MEM_ID, MEM_NAME, MEM_HP 
 		                , MEM_MAIL, MEM_MILEAGE, MEM_DELETE 
 		    FROM MEMBER
 		    ORDER BY ROWID DESC
-		) A                          
-	</entry>
-	<entry key="kr.or.ddit.member.dao.MemberDAO.selectMember">
-		 SELECT                                                                         
+		) A 
+	</select>
+	
+	<select id="selectMember" parameterType="string" resultType="MemberVO">
+		SELECT                                                                         
 		     MEM_ID,    MEM_PASS,    MEM_NAME,                                          
 		     MEM_REGNO1,    MEM_REGNO2,    TO_CHAR(MEM_BIR, 'YYYY-MM-DD') MEM_BIR,      
 		     MEM_ZIP,    MEM_ADD1,    MEM_ADD2,                                         
@@ -25,6 +28,24 @@
 		     MEM_MEMORIAL,    TO_CHAR(MEM_MEMORIALDAY, 'YYYY-MM-DD') MEM_MEMORIALDAY,   
 		     MEM_MILEAGE, MEM_DELETE                                                    
 		 FROM    MEMBER                                                            
-		 WHERE MEM_ID = ?                                                          
-	</entry>
-</properties>
+		 WHERE MEM_ID = #{memId} 
+	</select>
+	
+	<delete id="deleteMember" parameterType="string">
+		UPDATE MEMBER
+		SET
+		MEM_DELETE = '1'
+		WHERE MEM_ID = #{memId}
+	</delete>
+</mapper>
+
+
+
+
+
+
+
+
+
+
+
