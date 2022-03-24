@@ -7,12 +7,12 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<jsp:include page="/includee/preScript.jsp" />
 <style type="text/css">
 	body{
 		background-color: yellow;
 	}
 </style>
-<script type="text/javascript" src="${pageContext.request.contextPath }/resources/js/jquery-3.6.0.min.js"></script>
 <%
 	request.setCharacterEncoding("UTF-8");
 	String message = request.getParameter("message");
@@ -36,6 +36,7 @@
 	if(authMember==null){
 		%>
 		<a href="${pageContext.request.contextPath }/login/loginForm.do">로그인</a>
+		<a href="${pageContext.request.contextPath }/member/memberInsert.do">회원가입</a>
 		<%
 	}else{
 		%>
@@ -62,6 +63,7 @@
 <script type="text/javascript">
 	document.getElementById("timeArea").innerHTML = new Date();
 </script>
+<jsp:include page="/includee/postScript.jsp" />
 </body>
 </html>
 

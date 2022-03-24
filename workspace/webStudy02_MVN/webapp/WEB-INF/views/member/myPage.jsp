@@ -27,14 +27,10 @@
 <%
 	MemberVO member = (MemberVO)request.getAttribute("member");
 %>
-	<table>
+	<table class="table table-bordered">
 		<tr>
 			<th>회원아이디</th>
 			<td><%=member.getMemId()%></td>
-		</tr>
-		<tr>
-			<th>비밀번호</th>
-			<td><%=member.getMemPass()%></td>
 		</tr>
 		<tr>
 			<th>회원명</th>
@@ -106,7 +102,9 @@
 		</tr>
 		<tr>
 			<td colspan="2">
-				<input type="button" value="수정"/>
+				<input type="button" value="수정" class="linkBtn"
+					data-href="${pageContext.request.contextPath }/member/memberUpdate.do"
+				/>
 				<input type="button" value="탈퇴" id="delBtn" 
 					class="btn btn-primary" 
 				/>
@@ -135,6 +133,7 @@
   </div>
 </div>
 	<script type="text/javascript">
+		
 		$("#delBtn").on("click", function(){
 			exampleModal.modal('show');
 		});

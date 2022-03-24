@@ -7,15 +7,15 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
-<script type="text/javascript" src="${pageContext.request.contextPath }/resources/js/jquery-3.6.0.min.js"></script>
+<jsp:include page="/includee/preScript.jsp" />
 </head>
 <body>
 <h4> 회원 목록 </h4>
 <%
 	List<MemberVO> memberList = (List) request.getAttribute("memberList");
 %>
-<table>
-	<thead>
+<table class="table table-striped">
+	<thead class="thead-dark">
 		<tr>
 			<th>일련번호</th>
 			<th>회원아이디</th>
@@ -58,6 +58,7 @@
 		 location.href="${pageContext.request.contextPath }/member/memberView.do?who="+memId;
 	}).css('cursor', 'pointer');
 </script>
+<jsp:include page="/includee/postScript.jsp" />
 </body>
 </html>
 

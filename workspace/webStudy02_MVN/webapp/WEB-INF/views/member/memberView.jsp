@@ -6,19 +6,16 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<jsp:include page="/includee/preScript.jsp" />
 </head>
 <body>
 <%
 	MemberVO member = (MemberVO)request.getAttribute("member");
 %>
-	<table>
+	<table class="table table-bordered">
 		<tr>
 			<th>회원아이디</th>
 			<td><%=member.getMemId()%></td>
-		</tr>
-		<tr>
-			<th>비밀번호</th>
-			<td><%=member.getMemPass()%></td>
 		</tr>
 		<tr>
 			<th>회원명</th>
@@ -86,8 +83,9 @@
 		</tr>
 		<tr>
 			<th>탈퇴여부</th>
-			<td><%=member.getMemDelete() %></td>
+			<td><%=!new Boolean(true).equals(member.getMemDelete()) ? "":"탈퇴" %></td>
 		</tr>
 	</table>
+<jsp:include page="/includee/postScript.jsp" />	
 </body>
 </html>

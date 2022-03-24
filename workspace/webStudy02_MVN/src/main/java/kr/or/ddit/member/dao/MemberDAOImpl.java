@@ -24,8 +24,15 @@ public class MemberDAOImpl implements MemberDAO {
 
 	@Override
 	public int insertMember(MemberVO member) {
-		// TODO Auto-generated method stub
-		return 0;
+		try(
+			SqlSession sqlSession = sqlSessionFactory.openSession(false);
+		){
+//			sqlSession.insert("kr.or.ddit.member.dao.MemberDAO.insertMember222");
+			MemberDAO mapper = sqlSession.getMapper(MemberDAO.class);
+			int rowcnt = mapper.insertMember(member);
+			sqlSession.commit();
+			return rowcnt;
+		}
 	}
 
 	@Override
@@ -48,8 +55,13 @@ public class MemberDAOImpl implements MemberDAO {
 
 	@Override
 	public int updateMember(MemberVO member) {
-		// TODO Auto-generated method stub
-		return 0;
+		try(
+			SqlSession sqlSession = sqlSessionFactory.openSession();
+		){
+			int rowcnt = sqlSession.update("kr.or.ddit.member.dao.MemberDAO.updateMember", member);
+			sqlSession.commit();
+			return rowcnt;
+		}
 	}
 
 	@Override
