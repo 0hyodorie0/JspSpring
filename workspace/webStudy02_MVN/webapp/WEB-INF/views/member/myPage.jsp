@@ -1,3 +1,6 @@
+<%@page import="java.util.Set"%>
+<%@page import="kr.or.ddit.vo.ProdVO"%>
+<%@page import="java.util.List"%>
 <%@page import="org.apache.commons.lang3.StringUtils"%>
 <%@page import="kr.or.ddit.vo.MemberVO"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
@@ -108,6 +111,48 @@
 				<input type="button" value="탈퇴" id="delBtn" 
 					class="btn btn-primary" 
 				/>
+			</td>
+		</tr>
+		<tr>
+			<th>구매정보</th>
+			<td>
+				<table>
+					<thead>
+						<tr>
+							<th>상품코드</th>
+							<th>상품명</th>
+							<th>상품분류명</th>
+							<th>상품거래처명</th>
+							<th>구매가</th>
+							<th>판매가</th>
+						</tr>
+					</thead>
+					<tbody>
+						<%
+							Set<ProdVO> prodList = member.getProdList();
+							if(prodList.isEmpty()){
+								%>
+								<tr>
+									<td colspan="6">구매정보 없음.</td>
+								</tr>
+						<%
+							}else{
+								for(ProdVO prod : prodList){
+									%>
+									<tr>
+										<td><%=prod.getProdId() %></td>
+										<td><%=prod.getProdName() %></td>
+										<td><%=prod.getLprodNm() %></td>
+										<td><%=prod.getBuyerName() %></td>
+										<td><%=prod.getProdPrice() %></td>
+										<td><%=prod.getProdCost() %></td>
+									</tr>
+									<%
+								}
+							}
+						%>
+					</tbody>
+				</table>
 			</td>
 		</tr>
 	</table>
