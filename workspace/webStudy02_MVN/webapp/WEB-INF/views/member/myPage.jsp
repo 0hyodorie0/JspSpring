@@ -116,8 +116,8 @@
 		<tr>
 			<th>구매정보</th>
 			<td>
-				<table>
-					<thead>
+				<table class="table table-bordered">
+					<thead class="thead-dark">
 						<tr>
 							<th>상품코드</th>
 							<th>상품명</th>
@@ -138,14 +138,18 @@
 						<%
 							}else{
 								for(ProdVO prod : prodList){
+									String viewURL = request.getContextPath()
+											+"/prod/prodView.do?what="
+											+prod.getProdId();
 									%>
-									<tr>
+									<tr class="linkBtn"
+										data-href="<%=viewURL %>">
 										<td><%=prod.getProdId() %></td>
 										<td><%=prod.getProdName() %></td>
 										<td><%=prod.getLprodNm() %></td>
 										<td><%=prod.getBuyerName() %></td>
-										<td><%=prod.getProdPrice() %></td>
 										<td><%=prod.getProdCost() %></td>
+										<td><%=prod.getProdPrice() %></td>
 									</tr>
 									<%
 								}

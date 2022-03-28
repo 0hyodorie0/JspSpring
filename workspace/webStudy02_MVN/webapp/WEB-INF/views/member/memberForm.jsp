@@ -36,7 +36,7 @@
 		<tr>
 			<th>회원아이디</th>
 			<td>
-				<input class="form-control" required type="text"
+				<input class="form-control"  type="text"
 					name="memId" value="<%=member.getMemId()%>" 
 					maxlength="15"	
 				/>
@@ -46,14 +46,14 @@
 		<tr>
 			<th>비밀번호</th>
 			<td>
-				<input class="form-control" required type="text" name="memPass"/>
+				<input class="form-control"  type="text" name="memPass"/>
 				<span><%=errors.get("memPass")%></span>
 			</td>
 		</tr>
 		<tr>
 			<th>회원명</th>
 			<td>
-				<input class="form-control" required type="text"
+				<input class="form-control"  type="text"
 					name="memName" value="<%=member.getMemName()%>" />
 				<span><%=errors.get("memName")%></span>
 			</td>
@@ -85,7 +85,7 @@
 		<tr>
 			<th>우편번호</th>
 			<td>
-				<input class="form-control" required type="text"
+				<input class="form-control"  type="text"
 					name="memZip" value="<%=member.getMemZip()%>" />
 				<span><%=errors.get("memZip")%></span>
 			</td>
@@ -93,7 +93,7 @@
 		<tr>
 			<th>주소1</th>
 			<td>
-				<input class="form-control" required type="text"
+				<input class="form-control"  type="text"
 					name="memAdd1" value="<%=member.getMemAdd1()%>" />
 				<span><%=errors.get("memAdd1")%></span>
 			</td>
@@ -101,7 +101,7 @@
 		<tr>
 			<th>주소2</th>
 			<td>
-				<input class="form-control" required type="text"
+				<input class="form-control"  type="text"
 					name="memAdd2" value="<%=member.getMemAdd2()%>" />
 				<span><%=errors.get("memAdd2")%></span>
 			</td>
@@ -133,7 +133,7 @@
 		<tr>
 			<th>이메일</th>
 			<td>
-				<input class="form-control" required type="email"
+				<input class="form-control"  type="email"
 					name="memMail" value="<%=member.getMemMail()%>" />
 				<span><%=errors.get("memMail")%></span>
 			</td>
@@ -183,10 +183,10 @@
 	</table>
 </form>
 <script type="text/javascript">
-	$("#memberForm").validate({
+	$("#memberFormaa").validate({
 		rules:{
 			memId:{
-				required:true,
+				:true,
 				maxlength:15,
 				remote:{
 					url:"${pageContext.request.contextPath}/member/idCheck.do",
@@ -196,7 +196,7 @@
 		},
 		messages:{
 			memId:{
-				required:"아이디 필수",
+				:"아이디 필수",
 				maxlength:"최대 길이 15글자",
 				remote:"중복 아이디"
 			}

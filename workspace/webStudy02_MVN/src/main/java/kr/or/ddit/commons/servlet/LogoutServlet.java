@@ -12,6 +12,7 @@ import javax.servlet.http.HttpSession;
 
 @WebServlet("/login/logout.do")
 public class LogoutServlet extends HttpServlet{
+	
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		HttpSession session = req.getSession();
@@ -19,37 +20,26 @@ public class LogoutServlet extends HttpServlet{
 			resp.sendError(HttpServletResponse.SC_BAD_REQUEST);
 			return;
 		}
+		
 		session.invalidate();
 		String message = URLEncoder.encode("로그아웃성공", "UTF-8");
-		String viewName = "redirect:/?message="+message;
+		String viewName = "redirect:/?message=" + message;
 		viewResolve(viewName, req, resp);
+		
+		
 	}
-	
-	private void viewResolve(String viewName, HttpServletRequest req, HttpServletResponse resp)throws ServletException, IOException {
+	private void viewResolve(String viewName, HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		//5. 뷰로 이동.
 		if(viewName.startsWith("redirect:")) {
 			viewName = viewName.substring("redirect:".length());
 			resp.sendRedirect(req.getContextPath() + viewName);
 		}else {
-			String prefix = "/WEB-INF/views/";
+			String prefix ="/WEB-INF/views/";
 			String suffix = ".jsp";
-			//		5. 뷰로 이동.
 			req.getRequestDispatcher(prefix + viewName + suffix).forward(req, resp);
 		}
+		
 	}
+	
+	
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
