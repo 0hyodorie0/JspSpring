@@ -2,6 +2,9 @@ package kr.or.ddit.vo;
 
 import java.io.Serializable;
 
+import javax.validation.constraints.NotBlank;
+
+import kr.or.ddit.validate.UpdateGroup;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -15,6 +18,7 @@ import lombok.ToString;
 @ToString(exclude= {"prodDetail", "prodImg"})
 public class ProdVO implements Serializable {
 	private String prodId;
+	@NotBlank
 	private String prodName;
 	private String prodLgu;
 	private String lprodNm;
@@ -40,6 +44,7 @@ public class ProdVO implements Serializable {
 	private Integer memcnt;
 	private Integer rnum;
 	private String prodRate;
+	@NotBlank(groups=UpdateGroup.class)
 	private BuyerVO buyer;
 	
 }

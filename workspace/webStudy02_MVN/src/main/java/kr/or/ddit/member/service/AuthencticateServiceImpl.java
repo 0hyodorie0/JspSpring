@@ -6,26 +6,25 @@ import kr.or.ddit.member.dao.MemberDAOImpl;
 import kr.or.ddit.utils.PasswordUtils;
 import kr.or.ddit.vo.MemberVO;
 
-public class AuthenticateServiceImpl implements AuthenticateService {
-	
+public class AuthencticateServiceImpl implements AuthenticateService {
 	private MemberDAO dao = new MemberDAOImpl();
 	
 	@Override
 	public Object authenticate(MemberVO input) {
-		Object obj = null;
-		MemberVO vo = dao.slectMemberForAuth(input);
-		if(vo!=null) {
+		Object retValue = null;
+		MemberVO saved = dao.selectMemberForAuth(input);
+		if(saved!=null) {
 			String inputPass = input.getMemPass();
-			String voPass = vo.getMemPass();
-			if(PasswordUtils.passwordMatcher(inputPass, voPass)) {
-				obj = vo;				
+			String savedPass = saved.getMemPass();
+			if(PasswordUtils.passwordMatcher(inputPass, savedPass)) {
+				retValue = saved;
 			}else {
-				obj = ServiceResult.INVALIDPASSWORD;
+				retValue = ServiceResult.INVALIDPASSWORD;	
 			}
 		}else {
-			obj = ServiceResult.NOTEXIST;
+			retValue = ServiceResult.NOTEXIST;
 		}
-		return obj;
+		return retValue;
 	}
 
 }

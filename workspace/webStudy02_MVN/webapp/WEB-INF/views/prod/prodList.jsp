@@ -1,3 +1,5 @@
+<%@page import="kr.or.ddit.vo.BuyerVO"%>
+<%@page import="java.util.Map"%>
 <%@page import="kr.or.ddit.vo.PagingVO"%>
 <%@page import="java.util.List"%>
 <%@page import="kr.or.ddit.vo.ProdVO"%>
@@ -63,10 +65,25 @@
 					<%=paging.getPagingHTML() %>
 					<div id="searchDIV">
 						<select name="prodLgu">
-							<option value="P101">전자제품</option>
+							<%--
+								List<Map<String,Object>> lprodList = (List) request.getAttribute("lprodList");
+								for(Map<String,Object> lprod : lprodList){
+									--%>
+									<%-- <option value="<%=lprod.get("lprodGu") %>"><%=lprod.get("lprodNm") %></option> --%>
+									<%--
+								}
+							--%>
 						</select>
 						<select name="prodBuyer">
-							<option value="P10101">삼성전자</option>
+							<%--
+								List<BuyerVO> buyerList = (List)request.getAttribute("buyerList");
+								for(BuyerVO buyer : buyerList){
+									--%>
+									<%-- <option value="<%=buyer.getl%>"></option> --%>
+									<%--
+								}
+							--%>
+							
 						</select>
 						<input type="text" name ="prodName"/>
 						<input type="button" value="검색" id="searchBtn"/>
@@ -82,12 +99,43 @@
 		<input type="text" name="prodName" />
 	</form>
 	<script type="text/javascript">
+	$.ajax({
+		url : "${pageContext.request.contextPath}/prod/getLprodList.do",
+		dataType : "json",
+		success : function(resp){
+			/* {lprodList:[
+				{lprodGu: "P101", lprodNm:"컴퓨터제품"}
+			]} */
+			let lprodList = resp.lprodList;
+			let options = [];
+			options.push($("<option>")).attr("value", "").text("상품 분류")
+			$(lprodList).each(function(index, lprod){
+				let option = $("<option>").attr("value", lprod.lprodGu).text(lprod.lprodNm);
+				options.push(option);
+			});
+			searchDIV.find("[name-prodLgu]").append(options);
+		},
+		error : function(jqXHR, textStatus, errorThrown){
+			console.log(jqXHR);
+			console.log(textStatus);
+			console.log(errorThrown);
+		}
+	})
 		let searchForm = $("#searchForm");
 		let searchDIV = $("#searchDIV");
 		
 		
-		$("[name=prodLgu]").val("${paging.detailCondition.prodLgu}");
-		$("[name=prodBuyer]").val("${param.prodBuyer}");
+		$("[name=prodLgu]").on("change", function(){
+			let selectedLgu = $(this).val();
+			if(!selectedLgu) {
+				
+			}else{
+				$(prodBuyerTag).find("option").hide();
+				$(prodBuyerTag).find("option."+selectedLgu).show();
+				$(prodBuyerTag).find("option:first").show();				
+			}
+		}).val("${paging.detailCondition.prodLgu}");
+		let prodBuyerTag = $("[name=prodBuyer]").val("${param.prodBuyer}");
 		$("[name=prodName]").val("${detailCondition.prodName}");
 		
 		

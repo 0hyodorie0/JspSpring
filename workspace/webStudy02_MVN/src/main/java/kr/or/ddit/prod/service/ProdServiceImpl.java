@@ -8,16 +8,16 @@ import kr.or.ddit.prod.dao.ProdDAO;
 import kr.or.ddit.prod.dao.ProdDAOImpl;
 import kr.or.ddit.vo.PagingVO;
 import kr.or.ddit.vo.ProdVO;
+import oracle.net.aso.p;
 
 public class ProdServiceImpl implements ProdService {
-	private ProdDAO dao = new ProdDAOImpl();
-			
+	private ProdDAO prodDAO = new ProdDAOImpl();
+	
 	@Override
 	public ProdVO retrieveProd(String prodId) {
-		ProdVO prod = dao.selectProd(prodId);
-		if(prod==null) {
-			throw new PKNotFoundException(prodId + " 상품이 없습니다.");
-		}
+		ProdVO prod = prodDAO.selectProd(prodId);
+		if(prod==null)
+			throw new PKNotFoundException(prodId+" 상품이 없음.");
 		return prod;
 	}
 
@@ -35,12 +35,30 @@ public class ProdServiceImpl implements ProdService {
 
 	@Override
 	public List<ProdVO> retrieveProdList(PagingVO<ProdVO> paging) {
-		int totalRecord = dao.selectTotalRecord(paging);
+		int totalRecord = prodDAO.selectTotalRecord(paging);
 		paging.setTotalRecord(totalRecord);
-		
-		List<ProdVO> prodList = dao.selectProdList(paging);
+		List<ProdVO> prodList = prodDAO.selectProdList(paging);
 		paging.setDataList(prodList);
 		return prodList;
 	}
 
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

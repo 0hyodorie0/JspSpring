@@ -10,20 +10,19 @@ import kr.or.ddit.vo.PagingVO;
  *
  */
 public interface MemberDAO {
-	/**
-	 * 아이디와 비밀번호의 기반의 데이터 조회
+	 /**
+	  * 아이디와 비밀번호의 기반의 데이터 조회
 	 * @param input
 	 * @return 조건에 맞는 사용자가 없으면, null 반환.
 	 */
-	public MemberVO slectMemberForAuth(MemberVO input);
+	public MemberVO selectMemberForAuth(MemberVO input);
+	
 	/**
 	 * 신규 회원 정보 등록
 	 * @param member
-	 * @return 등록된 레코드 수 > 0 성공
+	 * @return 등록된 레코드 수 >0 성공
 	 */
 	public int insertMember(MemberVO member);
-	
-	
 	
 	/**
 	 * 검색 조건에 맞는 회원 수 조회
@@ -31,32 +30,43 @@ public interface MemberDAO {
 	 * @return
 	 */
 	public int selectTotalRecord(PagingVO<MemberVO> paging);
-	
 	/**
 	 * 회원 목록 조회
-	 * @return 조건에 맞는 레코드가 없는 경우, .size()==0
+	 * @param paging TODO
+	 * @return 조건에 맞는 레코드가 없는 경우, .size()==0 
 	 */
 	public List<MemberVO> selectMemberList(PagingVO<MemberVO> paging);
-	
 	/**
 	 * 회원 정보 상세 조회
 	 * @param memId 조회할 아이디
-	 * @return 존쟇지 않는 경우, null 반환
+	 * @return 존재하지 않는 경우, null 반환
 	 */
 	public MemberVO selectMember(String memId);
-	
 	/**
 	 * 회원 정보 수정
 	 * @param member 수정할 정보를 가진 VO
 	 * @return > 0, 성공
 	 */
 	public int updateMember(MemberVO member);
-	
 	/**
-	 * 회원 정보 삭제 
+	 * 회원 정보 삭제
 	 * @param memId 삭제할 아이디
-	 * @return > 0 , 성공
+	 * @return > 0, 성공
 	 */
 	public int deleteMember(String memId);
-	
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
