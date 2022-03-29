@@ -40,7 +40,7 @@
                <select name="prodLgu">
                   <%                                                               
                   List<Map<String,Object>> lprodList = (List)request.getAttribute("lprodList");
-                  for(Map lprod : lprodList) {
+                  for(Map<String,Object> lprod : lprodList) {
                   %>   
                      <option value="<%=lprod.get("lprodGu") %>" ><%=lprod.get("lprodNm") %></option>
                   <%
