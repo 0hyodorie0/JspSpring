@@ -4,26 +4,20 @@
 <%@page import="org.apache.commons.lang3.StringUtils"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %> <!-- 코어태그(c tag) -->
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
-<jsp:include page="/includee/preScript.jsp"/>
-</head>
-<body>
-<jsp:useBean id="prod" class="kr.or.ddit.vo.ProdVO" scope="request"/>
-<jsp:useBean id="errors" class="java.util.LinkedHashMap" scope="request"/>
-<%
-   String message = (String) request.getAttribute("message");
-   if(StringUtils.isNotBlank(message)){
-      %>
+<jsp:include page="/includee/preScript.jsp"/><!-- 커스텀태그 -->
+<c:if test="${not empty message}">
       <script type="text/javascript">
          alert("${message}");
       </script>
-      <%
-   }   
-%>
+</c:if>
+</head>
+<body>
 <form method="post" id="prodForm" action="${pageContext.request.contextPath }/prod/prodInsert.do">
 <h4>상 품 등 록 </h4>
 <table class="table table-bordered"> 
@@ -37,15 +31,12 @@
          <tr>
             <th>분류</th>
             <td>
-               <select name="prodLgu">
-                  <%                                                               
-                  List<Map<String,Object>> lprodList = (List)request.getAttribute("lprodList");
-                  for(Map<String,Object> lprod : lprodList) {
-                  %>   
-                     <option value="<%=lprod.get("lprodGu") %>" ><%=lprod.get("lprodNm") %></option>
-                  <%
-                  }
-                  %>
+               <select name="prodLgu" class="form-control">
+               		<c:forEach items="${lprodList }" var="lprod">
+               			<option value="${lprod['lprodGu'] }" >
+	                     	${lprod['lprodNm']}
+	                     </option>
+               		</c:forEach>
                </select>
                <span>${errors.prodLgu}</span>
             </td>
@@ -53,15 +44,12 @@
          <tr>
             <th>거래처</th>
             <td>
-               <select name="prodBuyer">
-                  <%
-                  List<BuyerVO> buyerList = (List)request.getAttribute("buyerList");
-                  for(BuyerVO buyer : buyerList) {
-                  %>   
-                  <option value="<%=buyer.getBuyerId() %>" class="<%=buyer.getBuyerLgu()%>"><%=buyer.getBuyerName() %></option>
-                  <%
-                  }
-                  %>
+               <select name="prodBuyer" class="form-control">
+               		<c:forEach items="${buyerList }" var="buyer">
+	                  <option value="${buyer.buyerId}" class="${buyer.buyerLgu }">
+	                  	${buyer['buyerName']}
+	                  </option>               		
+               		</c:forEach>
                </select>
                <span>${errors.prodBuyer}</span>
             </td>

@@ -5,6 +5,7 @@
 <%@page import="kr.or.ddit.vo.ProdVO"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -28,62 +29,38 @@
 			</tr>
 		</thead>
 		<tbody class="thead-dark">
-			<%
-				PagingVO<ProdVO> paging = (PagingVO)request.getAttribute("paging");
-				List<ProdVO> prodList = paging.getDataList();
-				if(prodList.isEmpty()){
-					%>
+			<c:set var="prodList" value="${paging.dataList }" />
+			<c:choose>
+				<c:when test="${empty prodList }">
 					<tr>
 						<td colspan="6">상품이 존재하지 않습니다.</td>
 					</tr>
-					<%
-				}else{
-					
-					for(ProdVO prod : prodList){
-						String viewURL = request.getContextPath() + 
-								         "/prod/prodView.do?what" +
-								         prod.getProdId();
-						%>
-						<tr>
-							<td><%=prod.getRnum() %></td>
-							<td><%=prod.getProdId() %></td>
-							<td><%=prod.getProdName() %></td>
-							<td><%=prod.getLprodNm() %></td>
-							<td><%=prod.getBuyer().getBuyerName() %></td>
-							<td><%=prod.getMemcnt() %></td>
-						</tr>
-						
-						<%
-					}
-				}
-				
-			%>
+				</c:when>
+				<c:otherwise>
+					<c:forEach items="${prodList }" var="prod">
+						<c:url value="/prod/prodView.do" var="viewURL">
+							<c:param name="what" value="${prod.prodId }"></c:param>
+						</c:url>
+						<tr class="linkBtn" data-href="${viewURL }">
+							<td>${prod['rnum']}</td>
+							<td>${prod['prodId']}</td>
+							<td>${prod['prodName']}</td>
+							<td>${prod['lprodNm']}</td>
+							<td>${prod['buyer.buyerName']}</td>
+							<td>${prod['memCnt']}</td>
+						</tr>						
+					</c:forEach>
+				</c:otherwise>
+			</c:choose>
 		</tbody>
 		<tfoot>
 			<tr>
 				<td colspan="6">
-					<%=paging.getPagingHTML() %>
+					${paging.pagingHTMLBS}
 					<div id="searchDIV">
 						<select name="prodLgu">
-							<%--
-								List<Map<String,Object>> lprodList = (List) request.getAttribute("lprodList");
-								for(Map<String,Object> lprod : lprodList){
-									--%>
-									<%-- <option value="<%=lprod.get("lprodGu") %>"><%=lprod.get("lprodNm") %></option> --%>
-									<%--
-								}
-							--%>
 						</select>
 						<select name="prodBuyer">
-							<%--
-								List<BuyerVO> buyerList = (List)request.getAttribute("buyerList");
-								for(BuyerVO buyer : buyerList){
-									--%>
-									<%-- <option value="<%=buyer.getl%>"></option> --%>
-									<%--
-								}
-							--%>
-							
 						</select>
 						<input type="text" name ="prodName"/>
 						<input type="button" value="검색" id="searchBtn"/>

@@ -7,32 +7,37 @@
 		<association property="buyer" javaType="BuyerVO" autoMapping="true"/>
 	</resultMap>
 	
-	<select id="selectProd" parameterType="string" resultType="ProdVO">
-		WITH BUYERCNT AS(
-		    SELECT BUYER_ID, BUYER_NAME, BUYER_ADD1, BUYER_COMTEL
-		        , (SELECT COUNT(*) FROM PROD WHERE PROD_BUYER = BUYER_ID) PROD_CNT
-		    FROM BUYER
-		), PRODVIEW AS(
-		    SELECT PROD.*, LPROD_NM
-		    FROM PROD INNER JOIN LPROD ON (PROD_LGU = LPROD_GU)
-		)
-		SELECT
-		    PROD_ID,    PROD_NAME,    PROD_LGU,
-		    PROD_BUYER,    PROD_COST,    PROD_PRICE,
-		    PROD_SALE,    PROD_OUTLINE,    PROD_DETAIL,
-		    PROD_IMG,    PROD_TOTALSTOCK,    
-		    TO_CHAR(PROD_INSDATE, 'YYYY-MM-DD') PROD_INSDATE,
-		    PROD_PROPERSTOCK,    PROD_SIZE,    PROD_COLOR,
-		    PROD_DELIVERY,    PROD_UNIT,    PROD_QTYIN,
-		    PROD_QTYSALE,    PROD_MILEAGE
-		    , BUYER_ID "buyer.buyerId"
-		    , BUYER_NAME "buyer.buyerName"
-		    , BUYER_ADD1 "buyer.buyerAdd1"
-		    , BUYER_COMTEL "buyer.buyerComtel"
-		    , PROD_CNT "buyer.prodCnt"
-		FROM  PRODVIEW INNER JOIN BUYERCNT ON (PROD_BUYER = BUYER_ID)
-		WHERE PROD_ID = #{prodId}
-	</select>
+	   <select id="selectProd" parameterType="string" resultMap="prodMap">
+        WITH BUYERCNT AS(
+          SELECT BUYER_ID, BUYER_NAME, BUYER_ADD1, BUYER_COMTEL
+              , (SELECT COUNT(*) FROM PROD WHERE PROD_BUYER = BUYER_ID) PROD_CNT
+          FROM BUYER
+      ), PRODVIEW AS(
+          SELECT PROD.*, LPROD_NM
+          FROM PROD INNER JOIN LPROD ON (PROD_LGU = LPROD_GU)
+      ),CARTMEM AS(
+            SELECT DISTINCT CART_PROD,MEM_ID,MEM_NAME,MEM_HP,MEM_MAIL,MEM_DELETE
+            FROM  CART INNER JOIN MEMBER ON (CART_MEMBER=MEM_ID)
+        )
+      SELECT
+          PROD_ID,    PROD_NAME,    PROD_LGU, LPROD_NM
+          PROD_BUYER,    PROD_COST,    PROD_PRICE,
+          PROD_SALE,    PROD_OUTLINE,    PROD_DETAIL,
+          PROD_IMG,    PROD_TOTALSTOCK,    
+          TO_CHAR(PROD_INSDATE, 'YYYY-MM-DD') PROD_INSDATE,
+          PROD_PROPERSTOCK,    PROD_SIZE,    PROD_COLOR,
+          PROD_DELIVERY,    PROD_UNIT,    PROD_QTYIN,
+          PROD_QTYSALE,    PROD_MILEAGE
+          , BUYER_ID "buyer.buyerId"
+          , BUYER_NAME "buyer.buyerName"
+          , BUYER_ADD1 "buyer.buyerAdd1"
+          , BUYER_COMTEL "buyer.buyerComtel"
+          , PROD_CNT "buyer.prodCnt"
+            , MEM_NAME, MEM_HP, MEM_MAIL,MEM_DELETE , MEM_ID
+      FROM  PRODVIEW INNER JOIN BUYERCNT ON (PROD_BUYER = BUYER_ID)
+               LEFT OUTER JOIN CARTMEM ON(PROD_ID=CART_PROD)
+      WHERE PROD_ID = #{prodId}
+   </select>
 	
 	<sql id="FromClause">
 		FROM PROD INNER JOIN LPROD ON(PROD_LGU = LPROD_GU)
