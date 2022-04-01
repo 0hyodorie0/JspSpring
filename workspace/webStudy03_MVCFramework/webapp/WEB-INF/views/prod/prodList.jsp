@@ -42,12 +42,12 @@
 							<c:param name="what" value="${prod.prodId }"></c:param>
 						</c:url>
 						<tr class="linkBtn" data-href="${viewURL }">
-							<td>${prod['rnum']}</td>
-							<td>${prod['prodId']}</td>
-							<td>${prod['prodName']}</td>
-							<td>${prod['lprodNm']}</td>
-							<td>${prod['buyer.buyerName']}</td>
-							<td>${prod['memCnt']}</td>
+							<td>${prod.rnum }</td>
+							<td>${prod.prodId }</td>
+							<td>${prod.prodName }</td>
+							<td>${prod.lprodNm }</td>
+							<td>${prod.buyer.buyerName }</td>
+							<td>${prod.memCnt }</td>
 						</tr>						
 					</c:forEach>
 				</c:otherwise>
@@ -75,14 +75,11 @@
 		<input type="text" name="prodBuyer" />
 		<input type="text" name="prodName" />
 	</form>
-	<script type="text/javascript">
+<script type="text/javascript">
 	$.ajax({
 		url : "${pageContext.request.contextPath}/prod/getLprodList.do",
 		dataType : "json",
 		success : function(resp){
-			/* {lprodList:[
-				{lprodGu: "P101", lprodNm:"컴퓨터제품"}
-			]} */
 			let lprodList = resp.lprodList;
 			let options = [];
 			options.push($("<option>")).attr("value", "").text("상품 분류")
@@ -91,6 +88,8 @@
 				options.push(option);
 			});
 			searchDIV.find("[name-prodLgu]").append(options);
+			$(prodLguTag).val("${paging.detailCondition.prodLgu}");
+			$(prodLguTag).trigger("change");
 		},
 		error : function(jqXHR, textStatus, errorThrown){
 			console.log(jqXHR);
@@ -100,19 +99,39 @@
 	})
 		let searchForm = $("#searchForm");
 		let searchDIV = $("#searchDIV");
-		
-		
-		$("[name=prodLgu]").on("change", function(){
-			let selectedLgu = $(this).val();
-			if(!selectedLgu) {
 				
-			}else{
-				$(prodBuyerTag).find("option").hide();
-				$(prodBuyerTag).find("option."+selectedLgu).show();
-				$(prodBuyerTag).find("option:first").show();				
-			}
-		}).val("${paging.detailCondition.prodLgu}");
-		let prodBuyerTag = $("[name=prodBuyer]").val("${param.prodBuyer}");
+		let prodLguTag = $("[name=prodLgu]").on("change", function(){
+			let selectedLgu = $(this).val();
+			
+			$.ajax({
+				url : "${pageContext.request.contextPath}/prod/getBuyerList.do",
+				data : {
+					lprodGu:selectedLgu
+				},
+				dataType : "json",
+				success : function(resp) {
+					searchDIV.find("[name=prodBuyer]").empty();
+					let buyerList = resp;
+					let options = [];
+					options.push($("<option>").attr("value", "").text("거래처"));
+					$(buyerList).each(function(index, buyer){
+						let option = $("<option>").attr("value", buyer.buyerId)
+												  .addClass(buyer.buyerLgu)
+												  .text(buyer.buyerName);
+						options.push(option);
+					});
+					searchDIV.find("[name=prodBuyer]").append(options);
+					$(prodBuyerTag).val("${param.prodBuyer}");
+				},
+				cache:true,			
+				error : function(jqXHR, textStatus, errorThrown) {
+					console.log(jqXHR);
+					console.log(textStatus);
+					console.log(errorThrown);
+				}
+			});
+		});
+		let prodBuyerTag = $("[name=prodBuyer]");
 		$("[name=prodName]").val("${detailCondition.prodName}");
 		
 		
@@ -124,10 +143,10 @@
 		$("#searchBtn").on("click", function(){
 			let inputs = searchDIV.find("[name]");
 			$(inputs).each(function(index, ipt){
-// 				console.log(this.name);
+//	 			console.log(this.name)
 				let name = this.name;
 				let value = $(this).val();
-				searchForm.find("[name="+ name +"]").val(value);
+				searchForm.find("[name="+name+"]").val(value);
 			});
 			searchForm.submit();
 		});

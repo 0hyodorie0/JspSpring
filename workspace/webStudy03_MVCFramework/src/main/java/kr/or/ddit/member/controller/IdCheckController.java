@@ -1,4 +1,4 @@
-package kr.or.ddit.member.servlet;
+package kr.or.ddit.member.controller;
 
 import java.io.IOException;
 import java.io.PrintWriter;

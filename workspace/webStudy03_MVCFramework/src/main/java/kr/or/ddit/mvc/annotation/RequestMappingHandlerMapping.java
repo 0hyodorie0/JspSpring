@@ -11,12 +11,14 @@ import javax.servlet.http.HttpServletResponse;
 import kr.or.ddit.mvc.annotation.stereotype.Controller;
 import kr.or.ddit.mvc.annotation.stereotype.RequestMapping;
 import kr.or.ddit.utils.ReflectionUtils;
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * 1.핸들러와 관련된 어노테이션 (Controller, RequestMapping) 트레이싱 ==> handlerMap 형성.
  * 2.수집된 정보를 기반으로 특정 요청을 처리할 수 있는 핸들러를 검색.
  *
  */
+@Slf4j
 public class RequestMappingHandlerMapping implements HandlerMapping {
 
 	private Map<RequestMappingCondition, RequestMappingInfo> handlerMap;
@@ -30,7 +32,7 @@ public class RequestMappingHandlerMapping implements HandlerMapping {
 				Object commandHandler = eachHandlerClass.newInstance();
 				
 				 Map<Method, RequestMapping> handlerMethods = ReflectionUtils.getMethodsWithAnnotationAtClass(eachHandlerClass, RequestMapping.class
-						 										, String.class, HttpServletRequest.class, HttpServletResponse.class);
+						 										, String.class);
 				for( Entry<Method, RequestMapping> entry : handlerMethods.entrySet()) {
 					Method handlerMethod = entry.getKey();
 					RequestMapping mappingAnnotation = entry.getValue();
@@ -39,11 +41,15 @@ public class RequestMappingHandlerMapping implements HandlerMapping {
 					RequestMappingCondition mappingCondition = new RequestMappingCondition(url, method);
 					RequestMappingInfo mappingInfo = new RequestMappingInfo(mappingCondition, commandHandler, handlerMethod);
 					handlerMap.put(mappingCondition, mappingInfo);
-					System.out.println(mappingInfo);
+					log.info("{}[{}]===>{}.{}", mappingCondition.getUrl(), mappingCondition.getMethod()
+							, mappingInfo.getCommandHandler().getClass().getName()
+							, mappingInfo.getHandlerMethod().getName()
+					);
+					
 				}
 				
 			}catch (Exception e) {
-				System.err.printf("%s 객체 생성 및 핸들러 호출 과정에서 예외 발생, %s\n", eachHandlerClass.getName(), e.getMessage());
+				log.error("객체 생성 및 핸들러 호출 과정에서 예외 발생", e);
 				continue;
 			}
 		}

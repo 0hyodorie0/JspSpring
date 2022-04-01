@@ -14,10 +14,32 @@
   <servlet>
   	<servlet-name>FrontController</servlet-name>
   	<servlet-class>kr.or.ddit.mvc.FrontController</servlet-class>
+  	<init-param>
+  		<param-name>basePackages</param-name>
+  		<param-value>
+  			kr.or.ddit
+  		</param-value>
+  	</init-param>
+  	<init-param>
+  		<param-name>prefix</param-name>
+  		<param-value>/WEB-INF/views/</param-value>
+  	</init-param>
+  	<init-param>
+  		<param-name>suffix</param-name>
+  		<param-value>.jsp</param-value>
+  	</init-param>
   	<load-on-startup>1</load-on-startup>
   </servlet>
   <servlet-mapping>
   	<servlet-name>FrontController</servlet-name>
   	<url-pattern>*.do</url-pattern>
+  </servlet-mapping>
+  <servlet>
+  	<servlet-name>FileUploadServletVersion2</servlet-name>
+  	<servlet-class>kr.or.ddit.servlet10.FileUploadServletVersion2</servlet-class>
+  </servlet>
+  <servlet-mapping>
+  	<servlet-name>FileUploadServletVersion2</servlet-name>
+  	<url-pattern>/12/fileUpload_2.do</url-pattern>
   </servlet-mapping>
 </web-app>

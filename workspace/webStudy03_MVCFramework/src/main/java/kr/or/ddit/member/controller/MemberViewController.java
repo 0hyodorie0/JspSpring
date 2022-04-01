@@ -1,4 +1,4 @@
-package kr.or.ddit.member.servlet;
+package kr.or.ddit.member.controller;
 
 import java.io.IOException;
 
@@ -25,10 +25,7 @@ public class MemberViewController {
 	public String viewHandler(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
 		String memId = req.getParameter("who");
-		if(StringUtils.isBlank(memId)) {
-			resp.sendError(HttpServletResponse.SC_BAD_REQUEST, "필수 파라미터 누락. 누구를 조회하시는교?!");
-			return null;
-		}
+		
 		try {
 			MemberVO member = service.retrieveMember(memId);
 			

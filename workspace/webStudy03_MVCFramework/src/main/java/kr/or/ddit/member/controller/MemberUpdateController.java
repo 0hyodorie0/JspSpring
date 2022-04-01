@@ -1,4 +1,4 @@
-package kr.or.ddit.member.servlet;
+package kr.or.ddit.member.controller;
 
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
@@ -17,28 +17,32 @@ import org.apache.commons.beanutils.BeanUtils;
 import kr.or.ddit.enumpkg.ServiceResult;
 import kr.or.ddit.member.service.MemberService;
 import kr.or.ddit.member.service.MemberServiceImpl;
+import kr.or.ddit.mvc.annotation.RequestMethod;
+import kr.or.ddit.mvc.annotation.stereotype.Controller;
+import kr.or.ddit.mvc.annotation.stereotype.RequestMapping;
 import kr.or.ddit.utils.ValidatorUtils;
 import kr.or.ddit.validate.UpdateGroup;
 import kr.or.ddit.vo.MemberVO;
 
 //@WebServlet("/member/memberUpdate.do")
+@Controller
 public class MemberUpdateController {
 	private MemberService service = new MemberServiceImpl();
 	
-	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+	@RequestMapping("/member/memberUpdate.do")
+	public String doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		MemberVO authMember = (MemberVO) req.getSession().getAttribute("authMember");
 		
 		MemberVO member = service.retrieveMember(authMember.getMemId());
 		
 		req.setAttribute("member", member);
 		
-		String viewName = "member/memberEdit";
-		viewResolve(viewName, req, resp);
+		return "member/memberEdit";
 	}
 
-	protected void doPost(HttpServletRequest req, HttpServletResponse resp) 
+	@RequestMapping(value="/member/memberUpdate.do", method=RequestMethod.POST)
+	public String doPost(HttpServletRequest req, HttpServletResponse resp) 
 			throws ServletException, IOException {
-		req.setCharacterEncoding("UTF-8");
 		MemberVO member = new MemberVO();
 		req.setAttribute("member", member);
 //		member.setMemId(req.getParameter("memId"));
@@ -73,24 +77,8 @@ public class MemberUpdateController {
 			viewName = "member/memberEdit";
 		}
 		
-		
-		viewResolve(viewName, req, resp);
+		return viewName;
 	}
 	
 
-	private void viewResolve(String viewName, HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		//5. 뷰로 이동.
-		if(viewName.startsWith("redirect:")) {
-			viewName = viewName.substring("redirect:".length());
-			resp.sendRedirect(req.getContextPath() + viewName);
-		}else if(viewName.startsWith("forward:")) {
-			viewName = viewName.substring("forward:".length());
-			req.getRequestDispatcher(viewName).forward(req, resp);
-		}else {
-			String prefix ="/WEB-INF/views/";
-			String suffix = ".jsp";
-			req.getRequestDispatcher(prefix + viewName + suffix).forward(req, resp);
-		}
-		
-	}
 }

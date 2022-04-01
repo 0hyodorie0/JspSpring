@@ -1,7 +1,6 @@
-<%@page import="java.util.List"%>
-<%@page import="kr.or.ddit.vo.ProdVO"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>	
 <!DOCTYPE html>
 <html>
 <head>
@@ -12,19 +11,18 @@
 <body>
 	<!-- model name : buyer -->
 	<!-- 거래처의 상세정보와 거래처 분류명, 해당 거래처와의 거래 품목(상품코드, 상품명, 구매가, 판매가)를 함께 조회. -->
-	<jsp:useBean id="buyer" class="kr.or.ddit.vo.BuyerVO" scope="request" />
 	<table class="table table-bordered">
 		<tr>
 			<th>거래처코드</th>
-			<td><%=buyer.getBuyerId()%></td>
+			<td>${buyer.buyerId }</td>
 		</tr>
 		<tr>
 			<th>거래처명</th>
-			<td><%=buyer.getBuyerName()%></td>
+			<td>${buyer.buyerName }</td>
 		</tr>
 		<tr>
 			<th>분류명</th>
-			<td><%=buyer.getLprodNm()%></td>
+			<td>${buyer.lprodNm }</td>
 		</tr>
 		<tr>
 			<th>거래품목</th>
@@ -40,80 +38,77 @@
 						</tr>
 					</thead>
 					<tbody>
-						<%
-						List<ProdVO> prodList = buyer.getProdList();
-						if(prodList.isEmpty()){
-							%>
-							<tr>
-								<td colspan="4">거래 품목 없음.</td>
-							</tr>
-							<%
-						}else{
-							for(ProdVO prod : prodList){
-								String viewURL = request.getContextPath()
-													+"/prod/prodView.do?what="
-													+prod.getProdId();           
-								%>
-								<tr class="linkBtn"
-									data-href="<%=viewURL %>"
-								>
-									<td><%=prod.getProdId() %></td>
-									<td><%=prod.getProdName() %></td>
-									<td><%=prod.getProdCost() %></td>
-									<td><%=prod.getProdPrice() %></td>
-									<td><%=prod.getProdRate() %></td>
+						<c:set var="prodList" value="${buyer.prodList }" />
+						<c:choose>
+							<c:when test="${not empty prodList }">
+								<c:forEach items="${prodList }" var="prod">
+									<c:url value="/prod/prodView.do" var="viewURL">
+										<c:param name="what" value="${prod.prodId }" />
+									</c:url>
+									<tr class="linkBtn"
+										data-href="${viewURL }"
+									>
+										<td>${prod.prodId }</td>
+										<td>${prod.prodName }</td>
+										<td>${prod.prodCost }</td>
+										<td>${prod.prodPrice }</td>
+										<td>${prod.prodRate }</td>
+									</tr>
+								</c:forEach>
+							</c:when>
+							<c:otherwise>
+								<tr>
+									<td colspan="5">거래 품목 없음.</td>
 								</tr>
-								<%
-							}
-						}
-						%>
+							</c:otherwise>
+						</c:choose>
 					</tbody>
 				</table>
 			</td>
 		</tr>
 		<tr>
 			<th>거래은행</th>
-			<td><%=buyer.getBuyerBank()%></td>
+			<td>${buyer.buyerBank }</td>
 		</tr>
 		<tr>
 			<th>계좌번호</th>
-			<td><%=buyer.getBuyerBankno()%></td>
+			<td>${buyer.buyerBankno }</td>
 		</tr>
 		<tr>
 			<th>계좌주</th>
-			<td><%=buyer.getBuyerBankname()%></td>
+			<td>${buyer.buyerBankname }</td>
 		</tr>
 		<tr>
 			<th>우편번호</th>
-			<td><%=buyer.getBuyerZip()%></td>
+			<td>${buyer.buyerZip }</td>
 		</tr>
 		<tr>
 			<th>주소1</th>
-			<td><%=buyer.getBuyerAdd1()%></td>
+			<td>${buyer.buyerAdd1 }</td>
 		</tr>
 		<tr>
 			<th>주소2</th>
-			<td><%=buyer.getBuyerAdd2()%></td>
+			<td>${buyer.buyerAdd2 }</td>
 		</tr>
 		<tr>
 			<th>전화번호</th>
-			<td><%=buyer.getBuyerComtel()%></td>
+			<td>${buyer.buyerComtel }</td>
 		</tr>
 		<tr>
 			<th>팩스번호</th>
-			<td><%=buyer.getBuyerFax()%></td>
+			<td>${buyer.buyerFax }</td>
 		</tr>
 		<tr>
 			<th>이메일</th>
-			<td><%=buyer.getBuyerMail()%></td>
+			<td>${buyer.buyerMail }</td>
 		</tr>
 		<tr>
 			<th>담당자</th>
-			<td><%=buyer.getBuyerCharger()%></td>
+			<td>${buyer.buyerCharger }</td>
 		</tr>
 		<tr>
 			<th>내선번호</th>
-			<td><%=buyer.getBuyerTelext()%></td>
+			<td>${buyer.buyerTelext }</td>
 		</tr>
 	</table>
 <jsp:include page="/includee/postScript.jsp" />	

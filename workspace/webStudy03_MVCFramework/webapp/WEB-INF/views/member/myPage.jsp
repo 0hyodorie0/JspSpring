@@ -1,10 +1,6 @@
-<%@page import="java.util.Set"%>
-<%@page import="kr.or.ddit.vo.ProdVO"%>
-<%@page import="java.util.List"%>
-<%@page import="org.apache.commons.lang3.StringUtils"%>
-<%@page import="kr.or.ddit.vo.MemberVO"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>    
 <!DOCTYPE html>
 <html>
 <head>
@@ -12,104 +8,95 @@
 <title>Insert title here</title>
 
 <jsp:include page="/includee/preScript.jsp" />
-
-<%
-	String message = (String) session.getAttribute("message");
-	if(StringUtils.isNotBlank(message)){
-		%>
-		<script>
-			alert("<%=message %>");
-		</script>
-		<%
-		session.removeAttribute("message"); // flash attribute
-	}
-%>
-
+<c:if test="${not empty message }">
+	<script type="text/javascript">
+		alert("${message }");
+	</script>
+	<c:remove var="message" scope="session"/>
+</c:if>
 </head>
 <body>
-<%
-	MemberVO member = (MemberVO)request.getAttribute("member");
-%>
 	<table class="table table-bordered">
 		<tr>
 			<th>회원아이디</th>
-			<td><%=member.getMemId()%></td>
+			<td>${member.memId }</td>
 		</tr>
 		<tr>
 			<th>회원명</th>
-			<td><%=member.getMemName()%></td>
+			<td>${member.memName }</td>
 		</tr>
 		<tr>
 			<th>주민번호1</th>
-			<td><%=member.getMemRegno1()%></td>
+			<td>${member.memRegno1 }</td>
 		</tr>
 		<tr>
 			<th>주민번호2</th>
-			<td><%=member.getMemRegno2()%></td>
+			<td>${member.memRegno2 }</td>
 		</tr>
 		<tr>
 			<th>생일</th>
-			<td><%=member.getMemBir()%></td>
+			<td>${member.memBir }</td>
 		</tr>
 		<tr>
 			<th>우편번호</th>
-			<td><%=member.getMemZip()%></td>
+			<td>${member.memZip }</td>
 		</tr>
 		<tr>
 			<th>주소1</th>
-			<td><%=member.getMemAdd1()%></td>
+			<td>${member.memAdd1 }</td>
 		</tr>
 		<tr>
 			<th>주소2</th>
-			<td><%=member.getMemAdd2()%></td>
+			<td>${member.memAdd2 }</td>
 		</tr>
 		<tr>
 			<th>집전번</th>
-			<td><%=member.getMemHometel()%></td>
+			<td>${member.memHometel }</td>
 		</tr>
 		<tr>
 			<th>회사전번</th>
-			<td><%=member.getMemComtel()%></td>
+			<td>${member.memComtel }</td>
 		</tr>
 		<tr>
 			<th>휴대폰</th>
-			<td><%=member.getMemHp()%></td>
+			<td>${member.memHp }</td>
 		</tr>
 		<tr>
 			<th>이메일</th>
-			<td><%=member.getMemMail()%></td>
+			<td>${member.memMail }</td>
 		</tr>
 		<tr>
 			<th>직업</th>
-			<td><%=member.getMemJob()%></td>
+			<td>${member.memJob }</td>
 		</tr>
 		<tr>
 			<th>취미</th>
-			<td><%=member.getMemLike()%></td>
+			<td>${member.memLike }</td>
 		</tr>
 		<tr>
 			<th>기념일</th>
-			<td><%=member.getMemMemorial() %></td>
+			<td>${member.memMemorial }</td>
 		</tr>
 		<tr>
 			<th>기념일자</th>
-			<td><%=member.getMemMemorialday() %></td>
+			<td>${member.memMemorialday }</td>
 		</tr>
 		<tr>
 			<th>마일리지</th>
-			<td><%=member.getMemMileage() %></td>
+			<td>${member.memMileage }</td>
 		</tr>
 		<tr>
 			<th>탈퇴여부</th>
-			<td><%=member.getMemDelete() %></td>
+			<td>${member.memDelete }</td>
 		</tr>
 		<tr>
 			<td colspan="2">
-				<input type="button" value="수정" class="linkBtn"
-					data-href="${pageContext.request.contextPath }/member/memberUpdate.do"
+				
+				<input type="button" value="수정" class="btn btn-primary linkBtn"
+					data-href="<c:url value="/member/memberUpdate.do" />"
 				/>
 				<input type="button" value="탈퇴" id="delBtn" 
-					class="btn btn-primary" 
+					class="btn btn-danger" 
 				/>
 			</td>
 		</tr>
@@ -127,34 +114,33 @@
 							<th>판매가</th>
 						</tr>
 					</thead>
-					<tbody>
-						<%
-							Set<ProdVO> prodList = member.getProdList();
-							if(prodList.isEmpty()){
-								%>
-								<tr>
-									<td colspan="6">구매정보 없음.</td>
-								</tr>
-						<%
-							}else{
-								for(ProdVO prod : prodList){
-									String viewURL = request.getContextPath()
-											+"/prod/prodView.do?what="
-											+prod.getProdId();
-									%>
+					<tbody>	
+						<c:set var="prodList" value="${member.prodList }" />
+						<c:choose>
+							<c:when test="${not empty prodList }">
+								<c:forEach items="${prodList }" var="prod">
+									<c:url value="/prod/prodView.do" var="viewURL">
+										<c:param name="what" value="${prod.prodId }" />
+									</c:url>
 									<tr class="linkBtn"
-										data-href="<%=viewURL %>">
-										<td><%=prod.getProdId() %></td>
-										<td><%=prod.getProdName() %></td>
-										<td><%=prod.getLprodNm() %></td>
-										<td><%=prod.getBuyerName() %></td>
-										<td><%=prod.getProdCost() %></td>
-										<td><%=prod.getProdPrice() %></td>
+										data-href="${viewURL }"
+									>
+										<td>${prod.prodId }</td>
+										<td>${prod.prodName }</td>
+										<td>${prod.lprodNm }</td>
+										<td>${prod.buyerName }</td>
+										<td>${prod.prodCost }</td>
+										<td>${prod.prodPrice }</td>
+										<td>${prod.prodRate }</td>
 									</tr>
-									<%
-								}
-							}
-						%>
+								</c:forEach>
+							</c:when>
+							<c:otherwise>
+								<tr>
+									<td colspan="7">구매정보 없음..</td>
+								</tr>
+							</c:otherwise>
+						</c:choose>
 					</tbody>
 				</table>
 			</td>

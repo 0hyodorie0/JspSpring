@@ -1,4 +1,4 @@
-package kr.or.ddit.prod.servlet;
+package kr.or.ddit.prod.controller;
 
 import java.io.IOException;
 import java.io.PrintWriter;

@@ -1,4 +1,4 @@
-package kr.or.ddit.member.servlet;
+package kr.or.ddit.buyer.controller;
 
 import java.io.IOException;
 
@@ -7,22 +7,26 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
-import kr.or.ddit.member.service.MemberService;
-import kr.or.ddit.member.service.MemberServiceImpl;
-import kr.or.ddit.vo.MemberVO;
+import org.apache.commons.lang3.StringUtils;
 
-//@WebServlet("/myPage.do")
-public class MyPageController{
-	private MemberService service = new MemberServiceImpl();
+import kr.or.ddit.buyer.service.BuyerService;
+import kr.or.ddit.buyer.service.BuyerServiceImpl;
+import kr.or.ddit.vo.BuyerVO;
+
+//@WebServlet("/buyer/buyerView.do")
+public class BuyerViewController {
+	private BuyerService service = new BuyerServiceImpl();
 	
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		HttpSession session = req.getSession();
-		MemberVO authMember = (MemberVO) session.getAttribute("authMember");
-		MemberVO detail = service.retrieveMember(authMember.getMemId());
-		req.setAttribute("member", detail);
-		String viewName = "member/myPage";
+		String buyerId = req.getParameter("what");
+		if(StringUtils.isBlank(buyerId)) {
+			resp.sendError(400, "필수 파라미터 누락");
+			return;
+		}
+		BuyerVO buyer = service.retrieveBuyer(buyerId);
+		req.setAttribute("buyer", buyer);
+		String viewName = "buyer/buyerView";
 		viewResolve(viewName, req, resp);
 	}
 	
@@ -42,15 +46,3 @@ public class MyPageController{
 		
 	}
 }
-
-
-
-
-
-
-
-
-
-
-
-
