@@ -22,6 +22,12 @@
 			<td>${member.memId }</td>
 		</tr>
 		<tr>
+			<th>회원이미지</th>
+			<td>
+				<img src="data:image/*;base64,${member.memImgBase64 }" />
+			</td>
+		</tr>
+		<tr>
 			<th>회원명</th>
 			<td>${member.memName }</td>
 		</tr>

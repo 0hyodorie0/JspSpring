@@ -14,7 +14,7 @@
 </c:if>
 </head>
 <body>
-<form method="post">
+<form method="post" enctype="multipart/form-data">
 	<table class="table table-bordered">
 		<tr>
 			<th>회원아이디</th>
@@ -29,6 +29,15 @@
 			<td>
 				<input class="form-control" required type="text" name="memPass"/>
 				<span>${errors['memPass'] }</span>
+			</td>
+		</tr>
+		<tr>
+			<th>회원이미지</th>
+			<td>
+				<c:if test="${not empty member.memImg }">
+					<img src="data:image/*;base64,${member.memImgBase64 }" />
+				</c:if>
+				<input class="form-control" type="file" name="memImage"/>
 			</td>
 		</tr>
 		<tr>

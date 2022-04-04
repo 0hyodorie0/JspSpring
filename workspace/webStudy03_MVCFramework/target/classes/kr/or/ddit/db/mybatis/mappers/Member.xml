@@ -3,7 +3,7 @@
 <mapper namespace="kr.or.ddit.member.dao.MemberDAO">
 
 	<select id="selectMemberForAuth" parameterType="MemberVO" resultType="MemberVO">
-		SELECT MEM_ID, MEM_PASS, MEM_NAME, MEM_MAIL 
+		SELECT MEM_ID, MEM_PASS, MEM_NAME, MEM_MAIL , MEM_IMG
 		FROM MEMBER  
 		WHERE MEM_ID = #{memId} AND MEM_DELETE IS NULL
 	</select>
@@ -78,6 +78,7 @@
 		     MEM_MAIL,    MEM_JOB,    MEM_LIKE,                                         
 		     MEM_MEMORIAL,    TO_CHAR(MEM_MEMORIALDAY, 'YYYY-MM-DD') MEM_MEMORIALDAY,   
 		     MEM_MILEAGE, MEM_DELETE   
+		    , MEM_IMG
 		    , PROD_ID, PROD_NAME, PROD_LGU, PROD_BUYER
 			, PROD_PRICE, PROD_COST  
 			, LPROD_NM
@@ -108,6 +109,9 @@
 		, MEM_LIKE = #{memLike,jdbcType=VARCHAR}
 		, MEM_MEMORIAL = #{memMemorial,jdbcType=VARCHAR}
 		, MEM_MEMORIALDAY = TO_DATE(#{memMemorialday,jdbcType=DATE}, 'YYYY-MM-DD')
+		<if test="memImg neq null">
+			, MEM_IMG = #{memImg,jdbcType=BLOB}
+		</if>
 		WHERE MEM_ID = #{memId}
 	</update>
 	
@@ -131,6 +135,9 @@
 			, MEM_LIKE
 			, MEM_MEMORIAL
 			, MEM_MEMORIALDAY
+			<if test="memImg neq null">
+				, MEM_IMG
+			</if>
 		)
 		VALUES
 		(
@@ -151,6 +158,9 @@
 			, #{memLike,jdbcType=VARCHAR}
 			, #{memMemorial,jdbcType=VARCHAR}
 			, TO_DATE(#{memMemorialday,jdbcType=DATE}, 'YYYY-MM-DD')
+			<if test="memImg neq null">
+				, #{memImg,jdbcType=BLOB}
+			</if>
 		)
 	</insert>
 </mapper>

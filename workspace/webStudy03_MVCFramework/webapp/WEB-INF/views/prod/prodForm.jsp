@@ -14,7 +14,8 @@
 </c:if>
 </head>
 <body>
-	<form method="post">
+	<form method="post" enctype="multipart/form-data">
+	<input ${command eq "UPDATE" ? "required" : "" } type="hidden" name="prodId" value="${prod.prodId }"/>
 	<table class="table table-bordered">
 		<tr>
 			<th>상품명</th>
@@ -95,8 +96,8 @@
 		<tr>
 			<th>상품이미지</th>
 			<td>
-				<input class="form-control" required type="text"
-				name="prodImg" value="${prod.prodImg }" />
+				<input class="form-control" ${command eq "INSERT" ? "required" : "" } type="file"
+				name="prodImage" />
 				<span>${errors.prodImg }</span>
 			</td>
 		</tr>

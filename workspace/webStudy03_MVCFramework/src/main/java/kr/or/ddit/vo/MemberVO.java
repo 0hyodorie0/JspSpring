@@ -1,7 +1,9 @@
 package kr.or.ddit.vo;
 
 
+import java.io.IOException;
 import java.io.Serializable;
+import java.util.Base64;
 import java.util.Set;
 
 import javax.validation.constraints.Email;
@@ -9,6 +11,7 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
+import kr.or.ddit.mvc.fileupload.MultipartFile;
 import kr.or.ddit.validate.InsertGroup;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -78,7 +81,7 @@ public class MemberVO implements Serializable{
 	private String memHp;
 	
 	@Email
-	@Size(max=8)
+	@Size(max=80)
 	private String memMail;
 	private String memJob;
 	private String memLike;
@@ -89,7 +92,23 @@ public class MemberVO implements Serializable{
 	private Boolean memDelete;
 	private int rnum;
 	
-	private Set<ProdVO> prodList;// hsamany(1:n), has a(1:1)
+	private Set<ProdVO> prodList;// hasmany(1:n), has a(1:1)
 	
+	private byte[] memImg;
+	private MultipartFile memImage;
+	
+	public void setMemImage(MultipartFile memImage) throws IOException {
+		if(memImage==null || memImage.isEmpty()) return;
+		this.memImage = memImage;
+		this.memImg = memImage.getBytes();
+	}
+	
+	public String getMemImgBase64() {
+		if(memImg!=null) {
+			return Base64.getEncoder().encodeToString(memImg);
+		}else {
+			return null;
+		}
+	}
 
 }

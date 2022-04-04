@@ -23,15 +23,26 @@ public class ProdDAOImpl implements ProdDAO {
 		}
 	}
 	@Override
-	public int insertProd(ProdVO prod) {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-	@Override
-	public int updateProd(ProdVO prod) {
-		// TODO Auto-generated method stub
-		return 0;
-	}
+	   public int insertProd(ProdVO prod) {
+	      try(
+	         SqlSession sqlSession = sqlSessionFactory.openSession();   
+	      ){
+	         int rowcnt = sqlSession.insert("kr.or.ddit.prod.dao.ProdDAO.insertProd", prod);
+	         sqlSession.commit();
+	         return rowcnt;
+	      }
+	   }
+	   @Override
+	   public int updateProd(ProdVO prod) {
+	      try(
+	         SqlSession sqlSession = sqlSessionFactory.openSession();   
+	      ){
+	         int rowcnt = sqlSession.insert("kr.or.ddit.prod.dao.ProdDAO.updateProd", prod);
+	         sqlSession.commit();
+	         return rowcnt;
+	      }
+	   }
+
 	
 	@Override
 	public int selectTotalRecord(PagingVO<ProdVO> paging) {

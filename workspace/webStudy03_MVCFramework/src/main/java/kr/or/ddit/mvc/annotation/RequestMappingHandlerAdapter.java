@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 import kr.or.ddit.mvc.annotation.resolvers.HandlerMethodArgumentResolver;
 import kr.or.ddit.mvc.annotation.resolvers.ModelAttributeArgumentResolver;
 import kr.or.ddit.mvc.annotation.resolvers.RequestParamArgumentResolver;
+import kr.or.ddit.mvc.annotation.resolvers.RequestPartArgumentResolver;
 import kr.or.ddit.mvc.annotation.resolvers.ServletSpecArgumentResolver;
 
 public class RequestMappingHandlerAdapter implements HandlerAdapter {
@@ -22,6 +23,7 @@ public class RequestMappingHandlerAdapter implements HandlerAdapter {
 		argumentResolvers.add(new ServletSpecArgumentResolver());
 		argumentResolvers.add(new RequestParamArgumentResolver());
 		argumentResolvers.add(new ModelAttributeArgumentResolver());
+		argumentResolvers.add(new RequestPartArgumentResolver());
 	}
 	
 	public void addHandlerMethodArgumentResolver(HandlerMethodArgumentResolver argumentResolver) {

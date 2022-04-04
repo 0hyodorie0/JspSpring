@@ -20,7 +20,7 @@
 </c:if>
 </head>
 <body>
-<form method="post" id="memberForm">
+<form method="post" id="memberForm" enctype="multipart/form-data">
 	<table class="table table-bordered">
 		<tr>
 			<th>회원아이디</th>
@@ -37,6 +37,12 @@
 			<td>
 				<input class="form-control"  type="text" name="memPass"/>
 				<span>${errors['memPass'] }</span>
+			</td>
+		</tr>
+		<tr>
+			<th>회원이미지</th>
+			<td>
+				<input class="form-control" type="file" name="memImage"/>
 			</td>
 		</tr>
 		<tr>
