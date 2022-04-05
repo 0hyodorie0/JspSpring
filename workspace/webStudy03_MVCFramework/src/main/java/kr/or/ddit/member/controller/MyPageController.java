@@ -16,6 +16,7 @@ public class MyPageController{
 	@RequestMapping("/myPage.do")
 	public String myPage(HttpSession session, HttpServletRequest req) {
 		MemberVO authMember = (MemberVO) session.getAttribute("authMember");
+		
 		MemberVO detail = service.retrieveMember(authMember.getMemId());
 		req.setAttribute("member", detail);
 		return "member/myPage";

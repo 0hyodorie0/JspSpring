@@ -73,8 +73,9 @@
 		 location.href="${pageContext.request.contextPath }/member/memberView.do?who="+memId;
 	}).css('cursor', 'pointer');
 	
-	$("[name=searchType]").val("${param.searchType}");
-	$("[name=searchWord]").val("${param.searchWord}");
+	$("[name=searchType]").val("${paging.simpleCondition.searchType}");
+	$("[name=searchWord]").val("${simpleCondition.searchWord}");
+	
 	const searchForm = $("#searchForm");
 	const searchDIV = $("#searchDIV").on("click", "[type=button]", function(){
 		let inputs = searchDIV.find(":input[name]");
