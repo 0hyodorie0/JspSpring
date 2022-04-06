@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:c="http://www.springframework.org/schema/c"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:util="http://www.springframework.org/schema/util"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.3.xsd
+		http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-4.3.xsd">
+
+	<util:properties id="dbInfo" location="classpath:/kr/or/ddit/ioc/lab2/dbInfo.properties" />
+	
+	<!-- #{} 빈 아이디 -->
+	<bean id="DBInfoVO1" class="kr.or.ddit.ioc.lab2.collection.DbInfoVO" 
+		p:driverClassName="#{dbInfo['maindb.driverClassName']}"
+		p:url="#{dbInfo['maindb.url']}"
+		p:user="#{dbInfo['maindb.user']}"
+		p:password="#{dbInfo['maindb.password']*3}"
+		p:initialSize="#{dbInfo['maindb.initialSize']}"
+		p:maxWait="#{dbInfo['maindb.maxWait']}"
+		p:maxTotal="#{dbInfo['maindb.maxTotal']}"
+	/>
+	
+	<!-- 스프링 컨테이너가 가진 property source??? -->
+	<context:property-placeholder location="classpath:/kr/or/ddit/ioc/lab2/dbInfo.properties"/>
+	
+	<!-- ${} 식별자 -->
+	<bean id="DBInfoVO2" class="kr.or.ddit.ioc.lab2.collection.DbInfoVO" 
+		p:driverClassName="${maindb.driverClassName}" 
+		p:url="${maindb.url}"
+		p:user="${maindb.user}"
+		p:password="${maindb.password}"
+		p:initialSize="${maindb.initialSize}"
+		p:maxWait="${maindb.maxWait}"
+		p:maxTotal="${maindb.maxTotal}"
+	/>
+</beans>
