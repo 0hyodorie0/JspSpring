@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+		<!-- SampleDAO dao = new SampleDAOImpl_MariaDB();-->
+		<bean id="sampleDAO_MariaDB" class="kr.or.ddit.ioc.lab1.dao.SampleDAOImpl_MariaDB"></bean>
+		<bean id="sampleDAO_Oracle" class="kr.or.ddit.ioc.lab1.dao.SampleDAOImpl_Oracle"></bean>
+		<!-- SampleService service = new SampleServiceImpl(dao); -->
+		<bean id="sampleService" class="kr.or.ddit.ioc.lab1.service.SampleServiceImpl">
+			<constructor-arg name="dao" ref="sampleDAO_Oracle" />
+		</bean>
+</beans>
