@@ -9,6 +9,14 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class SampleServiceImpl implements SampleService {
 	
+	public void init() {
+		log.info("{} 초기화 완료, 모든 주입 완료.", this.getClass().getSimpleName());
+	}
+	
+	public void destroy() {
+		log.info("{} 소멸.", this.getClass().getSimpleName());
+	}
+	
 //	1. new 키워드로 인스턴스를 직접 생성. 결합력 최상
 //	private SampleDAO dao = new SampleDAOImpl_Oracle();
 //	2. Factory Object Pattern

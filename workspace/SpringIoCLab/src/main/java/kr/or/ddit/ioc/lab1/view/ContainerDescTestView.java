@@ -16,6 +16,7 @@ public class ContainerDescTestView {
 		/*
 		SampleService service1 = context.getBean("sampleService_CI", SampleService.class);
 		SampleService service2 = context.getBean("sampleService_CI", SampleService.class);
+		
 		SampleService service3 = context.getBean("sampleService_SI", SampleService.class);
 		
 		System.out.println(service1 == service3);
