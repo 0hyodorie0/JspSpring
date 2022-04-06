@@ -31,10 +31,10 @@ public class MemberInsertController{
 	
 	@RequestMapping(value="/member/memberInsert.do", method=RequestMethod.POST)
 	public String process(
-			@ModelAttribute("member") MemberVO member
-			,  HttpServletRequest req
-			, @RequestPart(value="memImage", required=false) MultipartFile memImage
-		) throws IOException{
+		@ModelAttribute("member") MemberVO member
+		,  HttpServletRequest req
+		, @RequestPart(value="memImage", required=false) MultipartFile memImage
+	) throws IOException{
 		
 		member.setMemImage(memImage);
 		

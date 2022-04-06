@@ -34,7 +34,9 @@ public class FirstFilter implements Filter{
 			throws IOException, ServletException {
 		HttpServletRequest req = (HttpServletRequest) request;
 		log.info("요청 [{}] 필터링", req.getRequestURI());
+		
 		chain.doFilter(request, response);
+		
 		log.info("응답 [{}] 필터링", req.getRequestURL());
 	}
 

@@ -35,7 +35,7 @@
 		event.preventDefault();
 		let url = this.action;
 		let method = this.method;
-		let data = $(this).serialize();
+		let data = $(this).serialize(); //입력필드로 파라미터 만들기
 		console.log(data);
 		$.ajax({
 			url : url,

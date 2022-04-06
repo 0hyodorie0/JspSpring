@@ -2,12 +2,13 @@
 <%@page import="kr.or.ddit.vo.MemberVO"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
-<jsp:include page="/includee/preScript.jsp" />
+
 <style type="text/css">
 	body{
 		background-color: yellow;
@@ -28,15 +29,19 @@
 		session.removeAttribute("message"); // flash attribute
 	}
 %>
+	
+    <jsp:include page="/includee/preScript.jsp" />
+    
 </head>
 <body>
 웰컴 페이지
+현재까지 누적 방문자 수 : ${usercount }명
 <%
 	MemberVO authMember = (MemberVO) session.getAttribute("authMember");
 	if(authMember==null){
 		%>
-		<a href="${pageContext.request.contextPath }/login/loginForm.do">로그인</a>
-		<a href="${pageContext.request.contextPath }/member/memberInsert.do">회원가입</a>
+		<a href="${cPath }/login/loginForm.do">로그인</a>
+		<a href="${cPath }/member/memberInsert.do">회원가입</a>
 		<%
 	}else{
 		%>
@@ -53,15 +58,31 @@
 				hiddenForm.attr("action", "");
 			});
 		</script>
+		<ul>
+			<c:forEach items="${userList }" var="user">
+				<li>${user.memName }</li>
+			</c:forEach>
+		</ul>
 		<%
 	}
 %>
-
 
 <h4><%=request.getAttribute("sample") %></h4>
 <h4 id="timeArea"></h4>
 <script type="text/javascript">
 	document.getElementById("timeArea").innerHTML = new Date();
+/* 	$.ajax(
+		method: "POST",
+		url: ,
+		dataType: "JSON",
+		success: function(){
+			
+		},
+		error: function(){
+			
+		},
+		
+	); */
 </script>
 <jsp:include page="/includee/postScript.jsp" />
 </body>
