@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:c="http://www.springframework.org/schema/c"
+	xmlns:p="http://www.springframework.org/schema/p"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd"
+	
+	>
+
+<!-- CoC : Convention over Configuration -->
+
+	<bean id="variousDIVO_CI" scope="prototype" class="kr.or.ddit.ioc.lab2.various.VariousDIVO" 
+		c:number="23"
+		c:dblValue="23.1"
+		c:boolData="true"
+		c:ch="A"
+		c:str="TEXT"
+		
+		c:cpRes="classpath:/log4j2.xml"
+		init-method="init"
+	/>
+	<!-- 
+	1. 등록되있는 모든 빈은 사용되기 전에 생성하지 않는다
+	2. 객체가 생성이 되고 값이 주입되는지에대한 콜백 생성 (init)
+	3. variousDIVO_CIs는 variousDIVO_SI보다 늦게 생성
+	4. 등록된 모든 새로운 객체 
+	 -->
+	
+	<bean id="variousDIVO_SI" scope="prototype" class="kr.or.ddit.ioc.lab2.various.VariousDIVO" 
+		p:cpRes="file://D:/contents/Desert.jpg"
+		init-method="init"
+	/>
+</beans>
