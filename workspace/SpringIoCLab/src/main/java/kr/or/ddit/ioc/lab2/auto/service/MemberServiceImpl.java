@@ -1,8 +1,13 @@
 package kr.or.ddit.ioc.lab2.auto.service;
 
+import javax.inject.Inject;
+
+import org.springframework.stereotype.Service;
+
 import kr.or.ddit.ioc.lab2.auto.dao.MemberDAO;
 import kr.or.ddit.ioc.lab2.auto.vo.MemberVO;
 
+@Service
 public class MemberServiceImpl implements MemberService {
 	
 	//주입받을수있는 구조만 만들면 됨 
@@ -13,7 +18,7 @@ public class MemberServiceImpl implements MemberService {
 	private MemberDAO dao;
 	
 
- 
+	@Inject
 	public MemberServiceImpl(MemberDAO dao) {
 		super();
 		this.dao = dao;

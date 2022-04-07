@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:c="http://www.springframework.org/schema/c"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:p="http://www.springframework.org/schema/p"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.3.xsd">
+
+<!-- 빈등록 -->
+<!-- 의존관계형성 -->
+	<context:annotation-config />
+	
+	<!-- 특정 영역에 있는 클래스를 대상(선별)으로 빈을 자동 등록. -->
+	<context:component-scan base-package="kr.or.ddit.ioc.lab2.auto"
+		use-default-filters="true"
+	>
+
+		<context:exclude-filter type="annotation" expression="org.springframework.stereotype.Controller"/>
+	</context:component-scan>
+		
+<!-- 	빈등록 조건이 되는 marker annotation
+	@Component
+	@Repository
+	@Service
+	@Controller / @RESTController / @ControllerAdvice
+	@Configuration -->
+	
+	<!-- <bean id="memberDAO" class="kr.or.ddit.ioc.lab2.auto.dao.InMemoryMemberDAOImpl" 
+	/>
+	
+	<bean id="memberService" class="kr.or.ddit.ioc.lab2.auto.service.MemberServiceImpl" 
+		c:dao-ref="memberDAO"
+	/>
+	
+	<bean id="memberRetrieveController" class="kr.or.ddit.ioc.lab2.auto.controller.MemberRetrieveController" 
+		p:service-ref="memberService"
+	/> -->
+<!-- 컨테이너객체생성 -->
+<!--  -->
+</beans>
