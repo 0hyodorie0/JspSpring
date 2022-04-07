@@ -21,7 +21,7 @@ public class SampleController {
 	}
 	
 	@RequestMapping("/sample.do")
-	public String sample(Model model,@RequestParam("data")String param) {
+	public String sample(Model model,String param) {
 		StringBuffer info = service.retrieveInfo();
 		model.addAttribute("info", info);
 		model.addAttribute("data", param);
