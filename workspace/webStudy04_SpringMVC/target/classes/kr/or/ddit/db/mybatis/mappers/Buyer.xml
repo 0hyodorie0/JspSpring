@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.or.ddit.buyer.dao.BuyerDAO">
+	<resultMap type="BuyerVO" id="buyerMap" autoMapping="true">
+		<id property="buyerId" column="BUYER_ID"/>
+		<collection property="prodList" ofType="ProdVO" autoMapping="true">
+			<id property="prodId" column="PROD_ID"/>
+		</collection>
+	</resultMap>
+	<select id="selectBuyer" parameterType="string" resultMap="buyerMap" >
+		WITH BUYERVIEW AS(
+		    SELECT
+		        buyer_id,    buyer_name,    buyer_lgu,
+		        buyer_bank,    buyer_bankno,    buyer_bankname,
+		        buyer_zip,    buyer_add1,    buyer_add2,
+		        buyer_comtel,    buyer_fax,    buyer_mail,
+		        buyer_charger,    buyer_telext
+		        , LPROD_NM
+		    FROM    buyer INNER JOIN LPROD ON (BUYER_LGU = LPROD_GU)
+		), PRODVIEW AS (
+		    SELECT PROD_ID, PROD_NAME, PROD_COST, PROD_PRICE, PROD_BUYER
+		    , 
+		    ROUND(
+			    (SELECT COUNT(DISTINCT CART_MEMBER) FROM CART WHERE CART_PROD = PROD_ID)
+			     / (SELECT COUNT(*) FROM MEMBER) 
+			     , 2
+		     ) * 100 || '%' PROD_RATE
+		    FROM PROD
+		)
+		SELECT BUYERVIEW.*
+		    , PROD_ID, PROD_NAME, PROD_COST, PROD_PRICE
+		    , PROD_RATE
+		FROM BUYERVIEW LEFT OUTER JOIN PRODVIEW ON (BUYER_ID = PROD_BUYER)
+		WHERE BUYER_ID = #{buyerId}
+	</select>
+</mapper>

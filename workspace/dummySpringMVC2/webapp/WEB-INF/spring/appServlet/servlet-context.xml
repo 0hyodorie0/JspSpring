@@ -11,6 +11,11 @@
 
 	<mvc:annotation-driven />
 	
+	<!-- 정적 자원 일괄 관리 -->
+	<mvc:resources location="/resources/" mapping="/resources/**" cache-period="0"/>
+	
+	<!-- <mvc:default-servlet-handler/> -->
+	
 	<bean id="IRVR" class="org.springframework.web.servlet.view.InternalResourceViewResolver" 
 		p:prefix="/WEB-INF/views/"
 		p:suffix=".jsp"

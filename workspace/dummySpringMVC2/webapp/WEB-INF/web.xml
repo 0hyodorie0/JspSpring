@@ -4,6 +4,9 @@
 	xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd"
 	version="3.1">
 	<display-name>dummySpringMVC2</display-name>
+	<welcome-file-list>
+		<welcome-file>index.do</welcome-file>
+	</welcome-file-list>
 	
 	<!-- needed for ContextLoaderListener -->
 	<context-param>
@@ -53,6 +56,7 @@
 	<servlet-mapping>
 		<servlet-name>springDispatcherServlet</servlet-name>
 		<url-pattern>/</url-pattern>
+		<url-pattern>/index.do</url-pattern>
 	</servlet-mapping>
 </web-app>
 
