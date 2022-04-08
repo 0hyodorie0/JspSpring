@@ -2,6 +2,10 @@ package kr.or.ddit.prod.service;
 
 import java.util.List;
 
+import javax.inject.Inject;
+
+import org.springframework.stereotype.Service;
+
 import kr.or.ddit.enumpkg.ServiceResult;
 import kr.or.ddit.exception.PKNotFoundException;
 import kr.or.ddit.prod.dao.ProdDAO;
@@ -9,9 +13,10 @@ import kr.or.ddit.prod.dao.ProdDAOImpl;
 import kr.or.ddit.vo.PagingVO;
 import kr.or.ddit.vo.ProdVO;
 import oracle.net.aso.p;
-
+@Service
 public class ProdServiceImpl implements ProdService {
-	private ProdDAO prodDAO = new ProdDAOImpl();
+	@Inject
+	private ProdDAO prodDAO;
 	
 	@Override
 	public ProdVO retrieveProd(String prodId) {

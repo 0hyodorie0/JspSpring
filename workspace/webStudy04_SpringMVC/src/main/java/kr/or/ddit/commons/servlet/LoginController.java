@@ -1,8 +1,10 @@
 package kr.or.ddit.commons.servlet;
 
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 
+import javax.inject.Inject;
 import javax.servlet.ServletException;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
@@ -11,39 +13,44 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import kr.or.ddit.enumpkg.ServiceResult;
+import kr.or.ddit.exception.BadRequestException;
 import kr.or.ddit.member.service.AuthencticateServiceImpl;
 import kr.or.ddit.member.service.AuthenticateService;
-import kr.or.ddit.mvc.annotation.RequestMethod;
-import kr.or.ddit.mvc.annotation.stereotype.Controller;
-import kr.or.ddit.mvc.annotation.stereotype.RequestMapping;
 import kr.or.ddit.utils.CookieUtils;
 import kr.or.ddit.vo.MemberVO;
 
 //@WebServlet("/login/loginForm.do")
 @Controller
+@RequestMapping("/login")
 public class LoginController extends HttpServlet {
 //POJO
+	@Inject
+	private AuthenticateService service;
 
-	private AuthenticateService service = new AuthencticateServiceImpl();
-
-	@RequestMapping("/login/loginForm.do")
+	@RequestMapping("loginForm.do")
 	public String form(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		return "/login/loginForm";//logical view name (논리적인이름)
+		return "login/loginForm";//logical view name (논리적인이름)
 
 	}
 	
-	@RequestMapping(value="/login/loginProcess.do",method=RequestMethod.POST)
-	public String process (HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {	
-		HttpSession session = req.getSession(false);
+	@RequestMapping(value="loginProcess.do",method=RequestMethod.POST)
+	public String process (HttpSession session
+							, @RequestParam String memId
+							, @RequestParam String memPass
+							, HttpServletRequest req
+							, HttpServletResponse resp
+		) throws IOException {	
+		
 		if(session==null || session.isNew()) {
-			resp.sendError(400,"정상 로그인 요청이 아님.");
-			return null;
+			throw new BadRequestException();
 		}
 		
-		String memId = req.getParameter("memId");
-		String memPass = req.getParameter("memPass");
 		
 		//인증에 성공한 사람의 모든 정보를 갖고 잇음 
 		//Builder design Pattern
@@ -99,22 +106,11 @@ public class LoginController extends HttpServlet {
 	}
 	
 	
-
-	//검증하는 로직..
-	private boolean validate(MemberVO member) {
-		String memId = member.getMemId();
-		String memPass = member.getMemPass();
-		boolean vaild = !(StringUtils.isBlank(memId) || StringUtils.isBlank(memPass));
-		return vaild;
-	}
+	@RequestMapping(value="logout.do",method=RequestMethod.POST)
+	public String logout(HttpSession session) throws UnsupportedEncodingException{
 	
-	
-	@RequestMapping(value="/login/logout.do",method=RequestMethod.POST)
-	public String logout(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		HttpSession session = req.getSession();
 		if(session==null || session.isNew()) {
-			resp.sendError(HttpServletResponse.SC_BAD_REQUEST);
-			return null;
+			throw new BadRequestException();
 		}
 		session.invalidate();
 		String message = URLEncoder.encode("로그아웃성공", "UTF-8");

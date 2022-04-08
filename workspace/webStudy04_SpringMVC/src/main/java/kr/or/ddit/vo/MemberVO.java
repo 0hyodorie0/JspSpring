@@ -7,11 +7,11 @@ import java.util.Set;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
-
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
-import kr.or.ddit.mvc.fileupload.MultipartFile;
+import org.springframework.web.multipart.MultipartFile;
+
 import kr.or.ddit.validate.InsertGroup;
 import lombok.Data;
 import lombok.EqualsAndHashCode;

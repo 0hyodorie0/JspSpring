@@ -4,11 +4,12 @@ import java.util.List;
 
 import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
+import org.springframework.stereotype.Repository;
 
 import kr.or.ddit.db.CustomSqlSessionFactoryBuilder;
 import kr.or.ddit.vo.PagingVO;
 import kr.or.ddit.vo.ProdVO;
-
+@Repository
 public class ProdDAOImpl implements ProdDAO {
 
 	private SqlSessionFactory sqlSessionFactory = 

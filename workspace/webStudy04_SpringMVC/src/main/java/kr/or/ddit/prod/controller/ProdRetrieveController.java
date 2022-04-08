@@ -3,32 +3,39 @@ package kr.or.ddit.prod.controller;
 import java.io.IOException;
 import java.io.PrintWriter;
 
+import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import kr.or.ddit.mvc.annotation.resolvers.RequestParam;
-import kr.or.ddit.mvc.annotation.stereotype.Controller;
-import kr.or.ddit.mvc.annotation.stereotype.RequestMapping;
 import kr.or.ddit.prod.service.ProdService;
-import kr.or.ddit.prod.service.ProdServiceImpl;
 import kr.or.ddit.vo.PagingVO;
 import kr.or.ddit.vo.ProdVO;
 
 @Controller
 public class ProdRetrieveController{
-   private ProdService service = new ProdServiceImpl();
+	@Inject
+   private ProdService service;
    
    @RequestMapping("/prod/prodList.do")
    public String prodList(
-         @RequestParam(value="page", required=false, defaultValue="1") int[] currentPage
-         , @RequestParam(value="prodLgu", required=false) String prodLgu
-         , @RequestParam(value="prodBuyer", required=false) String prodBuyer
-         , @RequestParam(value="prodName", required=false) String prodName
+         @RequestParam(required=false, defaultValue="1") int[] currentPage
+         , @RequestParam(required=false) String prodLgu
+         , @RequestParam(required=false) String prodBuyer
+         , @RequestParam(required=false) String prodName
+//         , Model model
          , HttpServletRequest req
          , HttpServletResponse resp
    ) throws IOException{
+	   
+	   
+//	   HttpServletRequest req =(HttpServletRequest) model;
       String accept = req.getHeader("Accept");
       ProdVO detailCondition = new ProdVO();
       req.setAttribute("detailCondition", detailCondition);

@@ -2,26 +2,29 @@ package kr.or.ddit.member.controller;
 
 import javax.servlet.http.HttpSession;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.SessionAttribute;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
 import kr.or.ddit.enumpkg.ServiceResult;
 import kr.or.ddit.member.service.MemberService;
-import kr.or.ddit.member.service.MemberServiceImpl;
-import kr.or.ddit.mvc.annotation.RequestMethod;
-import kr.or.ddit.mvc.annotation.resolvers.RequestParam;
-import kr.or.ddit.mvc.annotation.stereotype.Controller;
-import kr.or.ddit.mvc.annotation.stereotype.RequestMapping;
 import kr.or.ddit.vo.MemberVO;
 
 @Controller
 public class MemberDeleteController{
-	private MemberService service = new MemberServiceImpl();
+	@Autowired
+	private MemberService service;
 	
-	@RequestMapping(value="/member/memberDelete.do", method=RequestMethod.POST)
+	@PostMapping(value="/member/memberDelete.do")
 	public String deleteMember(
-		@RequestParam("memPass") String memPass
+		@RequestParam String memPass
+		, RedirectAttributes redirectAttributes
+		, @SessionAttribute MemberVO authMember
 		, HttpSession session
 	){
-		MemberVO authMember = (MemberVO) session.getAttribute("authMember");
-		
 		String memId = authMember.getMemId();
 		
 		ServiceResult result = service.removeMember(new MemberVO(memId, memPass));
@@ -29,11 +32,11 @@ public class MemberDeleteController{
 		switch (result) {
 		case INVALIDPASSWORD:
 			viewName = "redirect:/myPage.do";
-			session.setAttribute("message", "비밀번호 오류");
+			redirectAttributes.addFlashAttribute("message", "비밀번호 오류");
 			break;
 		case FAIL:
 			viewName = "redirect:/myPage.do";
-			session.setAttribute("message", "서버 오류, 쫌따 다시 탈퇴!");
+			redirectAttributes.addFlashAttribute("message", "서버 오류, 쫌따 다시 탈퇴!");
 			break;
 
 		default:

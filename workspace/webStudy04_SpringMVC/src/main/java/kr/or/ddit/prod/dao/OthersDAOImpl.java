@@ -5,10 +5,11 @@ import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
+import org.springframework.stereotype.Repository;
 
 import kr.or.ddit.db.CustomSqlSessionFactoryBuilder;
 import kr.or.ddit.vo.BuyerVO;
-
+@Repository
 public class OthersDAOImpl implements OthersDAO {
 	
 	private SqlSessionFactory sqlSessionFactory = 

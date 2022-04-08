@@ -9,7 +9,8 @@ import java.util.UUID;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
-import kr.or.ddit.mvc.fileupload.MultipartFile;
+import org.springframework.web.multipart.MultipartFile;
+
 import kr.or.ddit.validate.InsertGroup;
 import kr.or.ddit.validate.UpdateGroup;
 import lombok.Data;

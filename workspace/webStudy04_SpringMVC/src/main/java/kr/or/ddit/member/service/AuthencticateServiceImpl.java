@@ -1,11 +1,14 @@
 package kr.or.ddit.member.service;
 
+import org.springframework.stereotype.Service;
+
 import kr.or.ddit.enumpkg.ServiceResult;
 import kr.or.ddit.member.dao.MemberDAO;
 import kr.or.ddit.member.dao.MemberDAOImpl;
 import kr.or.ddit.utils.PasswordUtils;
 import kr.or.ddit.vo.MemberVO;
 
+@Service
 public class AuthencticateServiceImpl implements AuthenticateService {
 	private MemberDAO dao = new MemberDAOImpl();
 	

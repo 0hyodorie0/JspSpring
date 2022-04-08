@@ -5,21 +5,24 @@ import java.io.PrintWriter;
 import java.util.List;
 import java.util.Map;
 
+import javax.inject.Inject;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import kr.or.ddit.mvc.annotation.stereotype.Controller;
-import kr.or.ddit.mvc.annotation.stereotype.RequestMapping;
 import kr.or.ddit.prod.dao.OthersDAO;
 import kr.or.ddit.prod.dao.OthersDAOImpl;
 import kr.or.ddit.vo.BuyerVO;
 
 @Controller
 public class OthersListController{
-	private OthersDAO othersDAO = new OthersDAOImpl();
+	@Inject
+	private OthersDAO othersDAO;
 	
 	@RequestMapping("/prod/getLprodList.do")
 	public String lprodList(HttpServletRequest req){
