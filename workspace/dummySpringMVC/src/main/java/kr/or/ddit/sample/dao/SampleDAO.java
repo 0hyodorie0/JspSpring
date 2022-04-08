@@ -4,7 +4,7 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public class SampleDAO {
-	  public String selectRawData() {
-	      return "RAW DATA";
-	   }
+	public String selectRawData() {
+		return "RAW DATA";
+	}
 }

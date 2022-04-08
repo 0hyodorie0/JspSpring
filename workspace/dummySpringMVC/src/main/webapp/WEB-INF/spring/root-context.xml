@@ -9,16 +9,26 @@
 	
 	<!-- Root Context: defines shared resources visible to all other web components -->
 	
-		<context:component-scan base-package="kr.or.ddit" use-default-filters="false">
-			<context:include-filter type="annotation" expression="org.springframework.stereotype.Component"/>
-			<context:exclude-filter type="annotation" expression="org.springframework.stereotype.Controller"/>
-		</context:component-scan>
+	<context:component-scan 
+		base-package="kr.or.ddit" use-default-filters="false">
+		<context:include-filter type="annotation" 
+			expression="org.springframework.stereotype.Component"/>
+		<context:exclude-filter type="annotation" 
+			expression="org.springframework.stereotype.Controller"/>	
+	</context:component-scan>	
+	
+	<bean id="filterMultipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver" 
+		p:maxUploadSizePerFile="#{1024*1024*10}"
+	/>
 		
-		<bean id="filterMultipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver" 
-			p:maxUploadSizePerFile="#{1024*1024*10}"
-		/>
-<!-- 		<bean id="sampleDAO" class="kr.or.ddit.sample.dao.SampleDAO"></bean>
-		<bean id="sampleService" class="kr.or.ddit.sample.service.SampleService" 
-			c:dao-ref="sampleDAO"
-		/> -->
+<!-- 	<bean id="sampleDAO" class="kr.or.ddit.sample.dao.SampleDAO" /> -->
+<!-- 	<bean id="sampleService" class="kr.or.ddit.sample.service.SampleService"  -->
+<!-- 		c:dao-ref="sampleDAO" -->
+<!-- 	/>	 -->
 </beans>
+
+
+
+
+
+

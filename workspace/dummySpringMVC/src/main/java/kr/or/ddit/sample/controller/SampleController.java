@@ -13,18 +13,31 @@ import kr.or.ddit.sample.service.SampleService;
 @Controller
 public class SampleController {
 	private SampleService service;
-	
 	@Required
 	@Inject
 	public void setService(SampleService service) {
 		this.service = service;
 	}
-	
+
 	@RequestMapping("/sample.do")
-	public String sample(Model model,String param) {
+	public String sample(Model model, String data) {
 		StringBuffer info = service.retrieveInfo();
 		model.addAttribute("info", info);
-		model.addAttribute("data", param);
+		model.addAttribute("data", data);
 		return "sample/view";
 	}
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+

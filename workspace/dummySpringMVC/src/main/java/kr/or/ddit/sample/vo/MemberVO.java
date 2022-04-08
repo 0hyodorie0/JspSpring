@@ -15,21 +15,20 @@ public class MemberVO {
 	
 	private String memImg;
 	
-	
 	public MultipartFile getMemImage() {
 		return memImage;
 	}
+	
 	public void setMemImage(MultipartFile memImage) {
 		if(memImage==null || memImage.isEmpty()) return;
 		
 		this.memImage = memImage;
-		this.memImg = UUID.randomUUID().toString();
-		
-			
+		this.memImg = UUID.randomUUID().toString();	
 	}
-	public void saveTo(File saveFolder) throws  IOException {
+	
+	public void saveTo(File saveFolder) throws IOException {
 		if(memImage==null || memImage.isEmpty()) return;
-		memImage.transferTo(new File(saveFolder,memImg));
+		memImage.transferTo(new File(saveFolder, memImg));
 	}
 	
 	public String getMemImg() {
@@ -60,5 +59,4 @@ public class MemberVO {
 	public String toString() {
 		return "MemberVO [memId=" + memId + ", memName=" + memName + ", memBir=" + memBir + "]";
 	}
-	
 }
