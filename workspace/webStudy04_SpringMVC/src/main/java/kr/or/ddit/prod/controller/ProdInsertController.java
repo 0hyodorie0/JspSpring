@@ -5,74 +5,68 @@ import java.io.IOException;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.UUID;
 
+import javax.annotation.PostConstruct;
+import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 
+import org.springframework.core.io.Resource;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestPart;
+import org.springframework.web.context.WebApplicationContext;
+import org.springframework.web.multipart.MultipartFile;
+
 import kr.or.ddit.enumpkg.ServiceResult;
-import kr.or.ddit.mvc.annotation.RequestMethod;
-import kr.or.ddit.mvc.annotation.resolvers.ModelAttribute;
-import kr.or.ddit.mvc.annotation.resolvers.RequestPart;
-import kr.or.ddit.mvc.annotation.stereotype.Controller;
-import kr.or.ddit.mvc.annotation.stereotype.RequestMapping;
-import kr.or.ddit.mvc.fileupload.MultipartFile;
 import kr.or.ddit.prod.dao.OthersDAO;
-import kr.or.ddit.prod.dao.OthersDAOImpl;
 import kr.or.ddit.prod.service.ProdService;
-import kr.or.ddit.prod.service.ProdServiceImpl;
 import kr.or.ddit.utils.ValidatorUtils;
 import kr.or.ddit.validate.InsertGroup;
 import kr.or.ddit.vo.ProdVO;
+import lombok.extern.slf4j.Slf4j;
 
 //@WebServlet("/prod/prodInsert.do")
 @Controller
+@RequestMapping("/prod/prodInsert.do")
+@Slf4j
 public class ProdInsertController {
-	private String saveFolderUrl = "/resources/prodimages";
-	private ProdService service = new ProdServiceImpl();
-	private OthersDAO othersDAO = new OthersDAOImpl();
 	
 	
-  private void addAttributes(HttpServletRequest req) {
-	  req.setAttribute("lprodList", othersDAO.selectLprodList());
-	  								/*null값으로 입력 하여서 마이바티스로감 ! */
-	  req.setAttribute("buyerList", othersDAO.selectBuyerList(null));
-	  req.setAttribute("command", "INSERT");
-}
+	@Inject
+	private ProdService service;
+	@Inject
+	private OthersDAO othersDAO;
 	
 	
-	@RequestMapping("/prod/prodInsert.do") /* UI 로 이동 */
-	public String  form(HttpServletRequest req) {		
-		addAttributes(req);
+	
+	@ModelAttribute("command")
+	public String command() {
+		return "INSERT";
+	}
+		
+	@GetMapping /* UI 로 이동 */
+	public String  form(Model model) {		
 		return "prod/prodForm";	
 	}
 	
-	
-	
-	
-	@RequestMapping(value="/prod/prodInsert.do",method=RequestMethod.POST)
+	@PostMapping
 	public String  process(
-			@ModelAttribute("prod")ProdVO prod,
-			@RequestPart("prodImage") MultipartFile prodImage,
-			HttpServletRequest req) throws IOException  {
+			@ModelAttribute("prod")ProdVO prod
+			,Model model
+			,HttpServletRequest req) throws IOException  {
 		
-		addAttributes(req);
 		
 		Map<String, List<String>> errors = new LinkedHashMap<>();
-		req.setAttribute("errors", errors);
+		model.addAttribute("errors", errors);
 		
 		//1. classpath resource
 	    //2. web resource --이미지가 주소를 가질 수 있음. 
 		//3. file system resource 
 
-		
-		String saveFolderPath = req.getServletContext().getRealPath(saveFolderUrl);
-		File saveFolder = new File(saveFolderPath);
-		if(!saveFolder.exists()) { // 폴더가 안만들어진것 
-			saveFolder.mkdirs();
-		}		
-		
-		prod.setProdImage(prodImage);
-		prod.saveTo(saveFolder);
 		
 //		   if(prodImage !=null&& !prodImage.isEmpty()) {
 			   //1. 업로드된 이미지저장

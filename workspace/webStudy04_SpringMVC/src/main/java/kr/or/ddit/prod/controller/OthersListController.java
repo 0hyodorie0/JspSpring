@@ -1,53 +1,50 @@
 package kr.or.ddit.prod.controller;
 
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.List;
 import java.util.Map;
 
 import javax.inject.Inject;
 import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
-
-import com.fasterxml.jackson.databind.ObjectMapper;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import kr.or.ddit.prod.dao.OthersDAO;
-import kr.or.ddit.prod.dao.OthersDAOImpl;
 import kr.or.ddit.vo.BuyerVO;
 
+//@WebServlet("/prod/getLprodList.do")
 @Controller
-public class OthersListController{
-	@Inject
-	private OthersDAO othersDAO;
-	
-	@RequestMapping("/prod/getLprodList.do")
-	public String lprodList(HttpServletRequest req){
-		List<Map<String, Object>> lprodList = othersDAO.selectLprodList();
-//		{lprodList:[
-//			{lprodGu:"P101", lprodNm:"컴퓨터제품"}
-//		]}
-		req.setAttribute("lprodList", lprodList);
-		return "forward:/toJSON";
-	}
-	
-	@RequestMapping("/prod/getBuyerList.do")
-	public String buyerList(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		String lprodGu = req.getParameter("lprodGu");
-		List<BuyerVO> buyerList = othersDAO.selectBuyerList(lprodGu);
-//		[{buyerId:"P10101", buyerLgu:"P101", buyerName:"삼성전자"}]
-		
-		resp.setContentType("application/json;charset=UTF-8");
-		ObjectMapper mapper = new ObjectMapper();
-		try(
-			PrintWriter out = resp.getWriter();	
-		){
-			mapper.writeValue(out, buyerList);
-		}
-		
-		return null;
-	}
+public class OthersListController {
+   @Inject
+   private OthersDAO othersDAO;
+
+   @RequestMapping("/prod/getLprodList.do")
+   public String lprodList(Model model) throws ServletException, IOException {
+      List<Map<String, Object>> lprodList = othersDAO.selectLprodList();
+//      {lprodList :[
+      // {lprodGu:"p101", lprodNm:"컴퓨터제품"}
+      // ]}
+
+      model.addAttribute("lprodList", lprodList);
+
+      return "jsonView";
+
+   }
+
+   @RequestMapping(value="/prod/getBuyerList.do", produces=MediaType.APPLICATION_JSON_UTF8_VALUE)
+   @ResponseBody
+   public List<BuyerVO> buyerList(@RequestParam String lprodGu
+         , HttpServletResponse resp) throws ServletException, IOException {
+//      [{buyerId:"p10101", buyerLgu:"P101", buyerName:"삼성전자"}]
+
+      List<BuyerVO> buyerList = othersDAO.selectBuyerList(lprodGu);
+      return buyerList;
+   }
+
 }

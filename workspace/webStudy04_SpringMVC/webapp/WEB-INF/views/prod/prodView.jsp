@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://www.springframework.org/tags" prefix="spring" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -45,7 +46,8 @@
    <tr>
       <th>상품이미지</th>
       <td>
-         <img src="${pageContext.request.contextPath}/resources/prodimages/${prod.prodImg}" />
+      	<spring:eval expression="@appInfo.prodImages" var="prodImages"></spring:eval>
+         <img src="${cPath}${prodImages }/${prod.prodImg}" />
       </td>
    </tr>
    <tr>

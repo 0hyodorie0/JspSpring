@@ -1,81 +1,71 @@
 package kr.or.ddit.prod.controller;
 
 import java.io.IOException;
-import java.io.PrintWriter;
 
 import javax.inject.Inject;
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-
-import com.fasterxml.jackson.databind.ObjectMapper;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import kr.or.ddit.prod.service.ProdService;
 import kr.or.ddit.vo.PagingVO;
 import kr.or.ddit.vo.ProdVO;
 
 @Controller
+@RequestMapping("/prod")
 public class ProdRetrieveController{
-	@Inject
+   @Inject
    private ProdService service;
+   @GetMapping("prodList.do")
+   public String ListUI() {
+      return "prod/prodList";
+   }
    
-   @RequestMapping("/prod/prodList.do")
-   public String prodList(
+   @GetMapping(value="prodList.do", produces=MediaType.APPLICATION_JSON_VALUE)
+   @ResponseBody
+   public PagingVO<ProdVO> prodList(
          @RequestParam(required=false, defaultValue="1") int[] currentPage
-         , @RequestParam(required=false) String prodLgu
-         , @RequestParam(required=false) String prodBuyer
-         , @RequestParam(required=false) String prodName
-//         , Model model
-         , HttpServletRequest req
+         ,@ModelAttribute("detailCondition") ProdVO detailCondition
          , HttpServletResponse resp
    ) throws IOException{
-	   
-	   
-//	   HttpServletRequest req =(HttpServletRequest) model;
-      String accept = req.getHeader("Accept");
-      ProdVO detailCondition = new ProdVO();
-      req.setAttribute("detailCondition", detailCondition);
-      detailCondition.setProdLgu(prodLgu);
-      detailCondition.setProdBuyer(prodBuyer);
-      detailCondition.setProdName(prodName);
       
       PagingVO<ProdVO> paging = new PagingVO<>(3, 2);
       paging.setCurrentPage(currentPage[0]);
       paging.setDetailCondition(detailCondition);
       
       service.retrieveProdList(paging);
+      return paging;
       
-//      req.setAttribute("paging", paging);
+//      req.setAttribute("paging", paging);   ============================================오로지 비동기로만 데이터를 보내주기로 약속함 
       
-      if (accept.contains("json")){
          // mime setting
-         resp.setContentType("application/json;charset=utf-8");
          // marshalling
-         ObjectMapper mapper = new ObjectMapper();
-         String json = mapper.writeValueAsString(paging);// json 데이터 생성 
+//         ObjectMapper mapper = new ObjectMapper();
+//         String json = mapper.writeValueAsString(paging);// json 데이터 생성 
          // serialization (out)
-         try(
-            PrintWriter out = resp.getWriter();
-         ){
-            out.print(json);
-         }
-         return null;
+//         try(
+//            PrintWriter out = resp.getWriter();
+//         ){
+//            out.print(json);
+//         }
          
-      }else {
-         return "prod/prodList";
-         
-      }
    }
    
-   @RequestMapping("/prod/prodView.do")
-   public String view(@RequestParam("what") String prodId, HttpServletRequest req){
+   @GetMapping("prodView.do")
+   public String view(
+         @RequestParam("what") String prodId
+         , Model model) {
       ProdVO prod = service.retrieveProd(prodId);
-      req.setAttribute("prod", prod);
+      model.addAttribute("prod", prod);
       return "prod/prodView";
    }
    
 }
+
