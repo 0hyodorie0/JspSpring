@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE tiles-definitions PUBLIC "-//Apache Software Foundation//DTD Tiles Configuration 3.0//EN" "http://tiles.apache.org/dtds/tiles-config_3_0.dtd" >
+<tiles-definitions>
+<!--   definition == page -->
+	<definition name="parent" template="/WEB-INF/views/template.jsp">
+		<put-attribute name="preScript" value="/includee/preScript.jsp" />
+		<put-attribute name="postScript" value="/includee/postScript.jsp" />
+		<put-attribute name="topMenu" value="/includee/topMenu.jsp" />
+		<put-attribute name="leftMenu" value="/includee/leftMenu.jsp" />
+	</definition>
+	<definition name="index" extends="parent">
+		<put-attribute name="content" value="/WEB-INF/views/index.jsp" />
+	</definition>
+	
+	<definition name="member/*" extends="parent" preparer="memberViewPreparer">
+		<put-attribute name="content" value="/WEB-INF/views/member/{1}.jsp" />
+	</definition>
+	
+	<definition name="prod/*" extends="parent" preparer="prodViewPreparer">
+		<put-attribute name="content" value="/WEB-INF/views/prod/{1}.jsp" />
+	</definition>
+	
+	<definition name="address/view" extends="parent">
+		<put-attribute name="content" value="/WEB-INF/views/address/view.jsp" />
+	</definition>
+</tiles-definitions>
+
+
+
+
+
+
+
+

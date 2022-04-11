@@ -23,7 +23,7 @@ public class MemberDeleteController{
 		@RequestParam String memPass
 		, RedirectAttributes redirectAttributes
 		, @SessionAttribute MemberVO authMember
-		, HttpSession session
+		, HttpSession session 
 	){
 		String memId = authMember.getMemId();
 		

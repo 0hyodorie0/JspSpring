@@ -1,20 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>    
-<!DOCTYPE html>
-<html>
-<head>
-<meta charset="UTF-8">
-<title>Insert title here</title>
-
-<jsp:include page="/includee/preScript.jsp" />
-<c:if test="${not empty message }">
-	<script type="text/javascript">
-		alert("${message }");
-	</script>
-</c:if>
-</head>
-<body>
 	<table class="table table-bordered">
 		<tr>
 			<th>회원아이디</th>
@@ -182,9 +168,6 @@
 			$(this).find("form")[0].reset();
 		});
 	</script>
-	<jsp:include page="/includee/postScript.jsp" />
-</body>
-</html>
 
 
 

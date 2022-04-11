@@ -1,19 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<!DOCTYPE html>
-<html>
-<head>
-<meta charset="UTF-8">
-<title>Insert title here</title>
-<jsp:include page="/includee/preScript.jsp" />
-<c:if test="${not empty message }">
-	<script type="text/javascript">
-		alert("${message }");
-	</script>
-</c:if>
-</head>
-<body>
 <form method="post" enctype="multipart/form-data">
 	<table class="table table-bordered">
 		<tr>
@@ -37,7 +24,7 @@
 				<c:if test="${not empty member.memImg }">
 					<img src="data:image/*;base64,${member.memImgBase64 }" />
 				</c:if>
-				<input class="form-control" type="file" name="memImage"/>
+				<input type="file" name="memImage" class="form-control"/>
 			</td>
 		</tr>
 		<tr>
@@ -172,9 +159,6 @@
 		</tr>
 	</table>
 </form>
-<jsp:include page="/includee/postScript.jsp" />
-</body>
-</html>
 
 
 

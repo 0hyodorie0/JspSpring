@@ -14,6 +14,7 @@ public class BuyerVO {
 	private String buyerId;
 	private String buyerName;
 	private String buyerLgu;
+	private String lprodNm;
 	private String buyerBank;
 	private String buyerBankno;
 	private String buyerBankname;
@@ -26,6 +27,5 @@ public class BuyerVO {
 	private String buyerCharger;
 	private String buyerTelext;
 	
-	private String lprodNm;
 	private List<ProdVO> prodList;
 }

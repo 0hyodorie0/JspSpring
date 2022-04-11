@@ -1,11 +1,12 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>    
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
 <title>02/factorial.jsp</title>
-<script type="text/javascript" src="<%=request.getContextPath() %>/resources/js/jquery-3.6.0.min.js"></script>
+<jsp:include page="/includee/preScript.jsp" />
 </head>
 <body>
 <h4>팩토리얼 연산 수행</h4>
@@ -20,14 +21,8 @@
 	<button type="submit">=</button>
 </form>
 <!-- 선언부 기호(재귀호출)를 사용해서, 10! 연산의 결과를 브라우저에 랜더링. -->
-<%
-	Object data = request.getAttribute("result");
-	long result = 0;
-	if(data!=null)
-		result = (Long)data;
-%>
 <div id="resultArea">
-<%=result %>
+${result }
 </div>
 <script type="text/javascript">
 	let resultArea = $("#resultArea");
@@ -35,7 +30,7 @@
 		event.preventDefault();
 		let url = this.action;
 		let method = this.method;
-		let data = $(this).serialize(); //입력필드로 파라미터 만들기
+		let data = $(this).serialize();
 		console.log(data);
 		$.ajax({
 			url : url,

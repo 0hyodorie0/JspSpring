@@ -1,13 +1,10 @@
 package kr.or.ddit.member.controller;
 
-import java.io.IOException;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
 import javax.inject.Inject;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -15,14 +12,10 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.SessionAttribute;
-import org.springframework.web.multipart.MultipartFile;
 
 import kr.or.ddit.enumpkg.ServiceResult;
 import kr.or.ddit.member.service.MemberService;
-import kr.or.ddit.member.service.MemberServiceImpl;
 import kr.or.ddit.utils.ValidatorUtils;
 import kr.or.ddit.validate.UpdateGroup;
 import kr.or.ddit.vo.MemberVO;
@@ -34,11 +27,8 @@ public class MemberUpdateController{
 	private MemberService service;
 	
 	@GetMapping
-	public String form(HttpSession session
-					 , Model model
-					 , @SessionAttribute MemberVO authMember
-		){
-		 		
+	public String form(@SessionAttribute MemberVO authMember
+			, Model model){
 		MemberVO member = service.retrieveMember(authMember.getMemId());
 		
 		model.addAttribute("member", member);
@@ -48,10 +38,10 @@ public class MemberUpdateController{
 	
 	@PostMapping
 	public String process(
-		@ModelAttribute MemberVO member //command object
+		@ModelAttribute("member") MemberVO member // command object
 		, Model model
-	) {
-				
+	){
+		
 		Map<String, List<String>> errors = new LinkedHashMap<>();
 		model.addAttribute("errors", errors);
 		

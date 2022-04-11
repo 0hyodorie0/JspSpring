@@ -1,12 +1,12 @@
-<%@page import="org.apache.commons.lang3.StringUtils"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
-<script type="text/javascript" src="${pageContext.request.contextPath }/resources/js/jquery-3.6.0.min.js"></script>
+<jsp:include page="/includee/preScript.jsp" />
 </head>
 <body>
 <form action="${pageContext.request.contextPath }/imageRead.do">
@@ -15,14 +15,10 @@
 		String lastImage = (String) request.getAttribute("lastImage");
 	%>
 	<select name="image">
-		<%
-			for(String file : children){
-				String selected = file.equals(lastImage)?"selected" : "";
-				%>
-				<option <%=selected %>><%=file %></option>
-				<%
-			}
-		%>
+		<c:forEach items="${children }" var="file">
+			<c:set var="selected" value="${file eq lastImage?'selected':'' }" />
+			<option ${selected }>${file }</option>
+		</c:forEach>
 	</select>
 	<input type="submit" value="전송" />
 </form>
@@ -39,26 +35,9 @@
 		form.after(newImg);
 		return false;
 	});
-	
-	<%
-		if(StringUtils.isNotBlank(lastImage)){
-			%>
-			form.trigger('submit');
-			<%
-		}
-	%>
+	<c:if test="${not empty lastImage}">
+		form.trigger('submit');
+	</c:if>
 </script>
 </body>
-
-
-
-
-
-
-
-
-
-
-
-
 </html>

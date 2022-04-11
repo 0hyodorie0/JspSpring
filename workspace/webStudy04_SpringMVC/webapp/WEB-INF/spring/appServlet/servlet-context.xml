@@ -9,13 +9,32 @@
       http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
       http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.3.xsd">
    
-   <mvc:annotation-driven/>
+   <mvc:annotation-driven validator="validator"/>
+   
+   <bean id="messageSource" class="org.springframework.context.support.ResourceBundleMessageSource"
+      p:basenames="kr.or.ddit.msgs.message , kr.or.ddit.msgs.ErrorMessages"
+   ></bean>
+   
+   <bean id="validator" class="org.springframework.validation.beanvalidation.LocalValidatorFactoryBean"
+      p:validationMessageSource-ref="messageSource"
+   ></bean>
    
    <mvc:resources location="/resources/" mapping="/resources/**" cache-period="0"></mvc:resources>
    
    <bean id="IRVR" class="org.springframework.web.servlet.view.InternalResourceViewResolver"
       p:prefix="/WEB-INF/views/"
       p:suffix=".jsp"
+   ></bean>
+   
+   
+   
+   <bean class="org.springframework.web.servlet.view.tiles3.TilesConfigurer"
+      p:definitions="/WEB-INF/tiles/*-definitions.xml"
+      p:preparerFactoryClass="org.springframework.web.servlet.view.tiles3.SpringBeanPreparerFactory"
+   ></bean>
+   
+   <bean class="org.springframework.web.servlet.view.tiles3.TilesViewResolver"
+      p:order="2"
    ></bean>
    
    <bean class="org.springframework.web.servlet.view.BeanNameViewResolver"
@@ -30,6 +49,8 @@
          expression="org.springframework.stereotype.Controller"/>
       <context:include-filter type="annotation" 
          expression="org.springframework.web.bind.annotation.ControllerAdvice"/>      
+      <context:include-filter type="annotation"
+          expression="kr.or.ddit.commons.annotations.ViewPreparerBean"/>
    </context:component-scan>
 
 <!-- 파일 업로드용 전략 빈. -->

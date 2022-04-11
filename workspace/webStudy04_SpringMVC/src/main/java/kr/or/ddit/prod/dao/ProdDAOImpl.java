@@ -9,6 +9,7 @@ import org.springframework.stereotype.Repository;
 import kr.or.ddit.db.CustomSqlSessionFactoryBuilder;
 import kr.or.ddit.vo.PagingVO;
 import kr.or.ddit.vo.ProdVO;
+
 @Repository
 public class ProdDAOImpl implements ProdDAO {
 
@@ -24,26 +25,25 @@ public class ProdDAOImpl implements ProdDAO {
 		}
 	}
 	@Override
-	   public int insertProd(ProdVO prod) {
-	      try(
-	         SqlSession sqlSession = sqlSessionFactory.openSession();   
-	      ){
-	         int rowcnt = sqlSession.insert("kr.or.ddit.prod.dao.ProdDAO.insertProd", prod);
-	         sqlSession.commit();
-	         return rowcnt;
-	      }
-	   }
-	   @Override
-	   public int updateProd(ProdVO prod) {
-	      try(
-	         SqlSession sqlSession = sqlSessionFactory.openSession();   
-	      ){
-	         int rowcnt = sqlSession.insert("kr.or.ddit.prod.dao.ProdDAO.updateProd", prod);
-	         sqlSession.commit();
-	         return rowcnt;
-	      }
-	   }
-
+	public int insertProd(ProdVO prod) {
+		try(
+			SqlSession sqlSession = sqlSessionFactory.openSession();	
+		){
+			int rowcnt = sqlSession.insert("kr.or.ddit.prod.dao.ProdDAO.insertProd", prod);
+			sqlSession.commit();
+			return rowcnt;
+		}
+	}
+	@Override
+	public int updateProd(ProdVO prod) {
+		try(
+			SqlSession sqlSession = sqlSessionFactory.openSession();	
+		){
+			int rowcnt = sqlSession.insert("kr.or.ddit.prod.dao.ProdDAO.updateProd", prod);
+			sqlSession.commit();
+			return rowcnt;
+		}
+	}
 	
 	@Override
 	public int selectTotalRecord(PagingVO<ProdVO> paging) {

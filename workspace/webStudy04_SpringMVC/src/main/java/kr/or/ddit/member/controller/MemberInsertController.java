@@ -15,54 +15,52 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import kr.or.ddit.enumpkg.ServiceResult;
 import kr.or.ddit.member.service.MemberService;
-import kr.or.ddit.member.service.MemberServiceImpl;
 import kr.or.ddit.utils.ValidatorUtils;
 import kr.or.ddit.validate.InsertGroup;
 import kr.or.ddit.vo.MemberVO;
 
 @Controller
-@RequestMapping("/member")
+@RequestMapping("/member/memberInsert.do")
 public class MemberInsertController{
 	@Inject
-   private MemberService service;
-   
-   @GetMapping
-   public String doGet(){
-      return "member/memberForm";
-   }
+	private MemberService service;
+	
+	@GetMapping
+	public String doGet(){
+		return "member/memberForm";
+	}
+	
+	@PostMapping
+	public String process(
+		@ModelAttribute("member") MemberVO member
+		,  Model model
+	){
+		
+		Map<String, List<String>> errors = new LinkedHashMap<>();
+		model.addAttribute("errors", errors);
+		
+		boolean valid = new ValidatorUtils<MemberVO>().validate(member, errors, InsertGroup.class);
+		String viewName = null;
+		if(valid) {
+			ServiceResult result = service.createMember(member);
+			switch (result) {
+			case PKDUPLICATED:
+				model.addAttribute("message", "아이디 중복");
+				viewName = "member/memberForm";
+				break;
+			case FAIL:
+				model.addAttribute("message", "서버 오류, 잠시 뒤 다시 실행하세요.");
+				viewName = "member/memberForm";
+				break;
 
-   
-   @PostMapping(value="/memberInsert.do")
-   public String process(
-      @ModelAttribute("member") MemberVO member
-      ,  Model model
-   ){
-      
-      Map<String, List<String>> errors = new LinkedHashMap<>();
-      model.addAttribute("errors", errors);
-      
-      boolean valid = new ValidatorUtils<MemberVO>().validate(member, errors, InsertGroup.class);
-      String viewName = null;
-      if(valid) {
-         ServiceResult result = service.createMember(member);
-         switch (result) {
-         case PKDUPLICATED:
-            model.addAttribute("message", "아이디 중복");
-            viewName = "member/memberForm";
-            break;
-         case FAIL:
-            model.addAttribute("message", "서버 오류, 잠시 뒤 다시 실행하세요.");
-            viewName = "member/memberForm";
-            break;
-
-         default:
-            viewName = "redirect:/";
-            break;
-         }
-      }else {
-         viewName = "member/memberForm";
-      }
-      
-      return viewName;
-   }
+			default:
+				viewName = "redirect:/";
+				break;
+			}
+		}else {
+			viewName = "member/memberForm";
+		}
+		
+		return viewName;
+	}
 }

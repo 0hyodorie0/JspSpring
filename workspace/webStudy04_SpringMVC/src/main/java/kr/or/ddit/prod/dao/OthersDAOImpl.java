@@ -9,6 +9,7 @@ import org.springframework.stereotype.Repository;
 
 import kr.or.ddit.db.CustomSqlSessionFactoryBuilder;
 import kr.or.ddit.vo.BuyerVO;
+
 @Repository
 public class OthersDAOImpl implements OthersDAO {
 	

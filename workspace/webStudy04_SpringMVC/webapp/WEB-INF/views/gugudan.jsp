@@ -1,25 +1,22 @@
 <%@ page contentType="text/html; charset=UTF-8" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <html>
 <head>
+<jsp:include page="/includee/preScript.jsp" />
 	<style type="text/css">
 		table{
 			background-color: green;
 		}
 	</style>
-	<script type="text/javascript" src="<%=request.getContextPath() %>/resources/js/jquery-3.6.0.min.js"></script>
 </head>
 <body>
-<h4><%=request.getAttribute("now") %></h4>
+<h4>${now }</h4>
 <form method="post" id="gugudanForm">
 <input type="number" name="minDan" min="2" max="9"/>
 <select name="maxDan">
-	<%
-		for(int dan=2; dan<=9; dan++){
-			%>
-			<option value="<%=dan %>"><%=dan %>단</option>
-			<%
-		}
-	%>
+	<c:forEach begin="2" end="9" var="dan" step="1">
+		<option value="${dan }">${dan }단</option>
+	</c:forEach>
 </select>
 <input type="submit" value="구구단" />
 </form>

@@ -20,14 +20,27 @@ public class ProdControllerAdvice {
 	
 	@ModelAttribute("lprodList")
 	public List<Map<String, Object>> lprodList() {
-		log.info("상품관리에 필요한 분류 정보를 조회하고, 컨트롤러에 위빙하였음");
+		log.info("상품관리에 필요한 분류 정보를 조회하고, 컨트롤러에 위빙하였음.");
 		return othersDAO.selectLprodList();
 	}
 	
 	@ModelAttribute("buyerList")
 	public List<BuyerVO> buyerList() {
-		log.info("상품관리에 필요한 거래처 정보를 조회하고, 컨트롤러에 위빙하였음");
+		log.info("상품관리에 필요한 거래처 정보를 조회하고, 컨트롤러에 위빙하였음.");
 		return othersDAO.selectBuyerList(null);
 	}
 	
+//	model.addAttribute("lprodList", othersDAO.selectLprodList());
+//	model.addAttribute("buyerList", othersDAO.selectBuyerList(null));
 }
+
+
+
+
+
+
+
+
+
+
+
