@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:c="http://www.springframework.org/schema/c"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:util="http://www.springframework.org/schema/util"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.3.xsd
+		http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-4.3.xsd">
+
+
+	<util:list id="sampleList" list-class="java.util.LinkedList"
+		value-type="java.lang.String">
+		<value>listValue1</value>
+		<value>listValue2</value>
+	</util:list>
+	<util:set id="sampleSet" set-class="java.util.LinkedHashSet">
+		<value>setValue1</value>
+		<ref bean="variousDIVO" />
+	</util:set>
+	<util:map id="sampleMap" map-class="java.util.LinkedHashMap"
+		key-type="java.lang.String">
+		<entry key="key1" value="mapValue1" />
+		<entry key="key2" value-ref="variousDIVO" />
+	</util:map>
+	<util:properties id="sampleProps"
+		location="classpath:/kr/or/ddit/ioc/lab2/dbInfo.properties">
+		<prop key="parpName1">propValue1</prop>
+		<prop key="parpName2">propValue2</prop>
+	</util:properties>
+	
+	<bean id="cDIVO1" class="kr.or.ddit.ioc.lab2.collection.CollectionDIVO" 
+		c:sampleList-ref="sampleList"
+		c:sampleSet-ref="sampleSet"
+		c:sampleMap-ref="sampleMap"
+		c:sampleProps-ref="sampleProps"
+		c:sampleArray="element1, element2"
+	/>
+	
+	<bean id="cDIVO3" class="kr.or.ddit.ioc.lab2.collection.CollectionDIVO" 
+		p:sampleList-ref="sampleList"
+		p:sampleSet-ref="sampleSet"
+		p:sampleMap-ref="sampleMap"
+		p:sampleProps-ref="sampleProps"
+		p:sampleArray="element1, element2"
+	/>
+
+	<bean id="variousDIVO" class="kr.or.ddit.ioc.lab2.various.VariousDIVO" />
+	<bean id="cDIVO2" class="kr.or.ddit.ioc.lab2.collection.CollectionDIVO">
+		<constructor-arg name="sampleList">
+			<list>
+				<value>listValue1</value>
+				<value>listValue2</value>
+			</list>
+		</constructor-arg>
+		<constructor-arg name="sampleSet">
+			<set>
+				<value>setValue1</value>
+				<ref bean="variousDIVO" />
+			</set>
+		</constructor-arg>
+		<constructor-arg name="sampleMap">
+			<map>
+				<entry key="key1" value="mapValue1" />
+				<entry key="key2" value-ref="variousDIVO" />
+			</map>
+		</constructor-arg>
+		<constructor-arg name="sampleProps">
+			<props>
+				<prop key="parpName1">propValue1</prop>
+				<prop key="parpName2">propValue2</prop>
+			</props>
+		</constructor-arg>
+		<constructor-arg name="sampleArray">
+			<array>
+				<value>element1</value>
+				<value>element2</value>
+			</array>
+		</constructor-arg>
+	</bean>
+</beans>

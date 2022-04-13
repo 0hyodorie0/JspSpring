@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+   xmlns:c="http://www.springframework.org/schema/c"
+   xmlns:mybatis-spring="http://mybatis.org/schema/mybatis-spring"
+   xmlns:util="http://www.springframework.org/schema/util"
+   xmlns:p="http://www.springframework.org/schema/p"
+   xsi:schemaLocation="http://mybatis.org/schema/mybatis-spring http://mybatis.org/schema/mybatis-spring-1.2.xsd
+      http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+      http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-4.3.xsd">
+
+<!-- Configuration 등록  -->
+<bean id="configuration" class="org.apache.ibatis.session.Configuration" 
+       p:mapUnderscoreToCamelCase="true"
+    />
+    
+<!-- SqlSessionFactoryBean을 통한 SqlSessionFactiory 등록  -->
+ <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean"
+       p:dataSource-ref="dataSource"
+       p:configuration-ref="configuration" 
+       p:typeAliasesPackage="kr.or.ddit.vo"
+       p:mapperLocations="classpath:kr/or/ddit/db/mybatis/mappers/*.xml"
+    ></bean>
+    
+<!-- SqlSessionTemplate : 템플릿 메소드를 사용 하기 위한 ! -->
+    <bean id="sqlSessionTemplate" class="org.mybatis.spring.SqlSessionTemplate" 
+       c:sqlSessionFactory-ref="sqlSessionFactory"
+    />
+    
+<!-- mybatis-spring을 통한 scan 구조 , mybatis-spring 의존성 필요. -->
+   <mybatis-spring:scan base-package="kr.or.ddit.**.dao"
+      annotation="org.apache.ibatis.annotations.Mapper"
+      template-ref="sqlSessionTemplate"
+   />
+
+
+</beans>

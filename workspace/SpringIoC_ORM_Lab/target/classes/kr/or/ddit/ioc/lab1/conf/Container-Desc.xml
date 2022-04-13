@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:c="http://www.springframework.org/schema/c"
+	xmlns:p="http://www.springframework.org/schema/p"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd"
+		default-lazy-init="default"
+	>
+
+<!-- 	스프링 DI[IoC, Bean] container 사용 단계 -->
+<!-- 	1. spring-context 의존성, pom.xml -->
+<!-- 	2. Spring Bean Configuration file[bean metadata file] 생성 -->
+<!-- 	3. 컨테이너에 의해 생명 주기가 관리된 객체[Bean] 등록 -->
+<!-- 		스프링 컨테이너란? bean[객체]의 생명 주기 관리자. -->
+<!-- 	4. 등록된 Bean들 간의 의존 관계 형성(서비스에 다오 넣음-depedency injection) -->
+<!-- 		1) constructor injection(required) -->
+<!-- 		2) setter injection(optional) -->
+<!-- 	5. 어플리케이션의 entry point에서 컨테이너 객체를 생성. -->
+<!-- 	6. 컨테이너를 통해 필요 빈 주입 받아 사용. -->
+
+	<bean id="mariaDAO" class="kr.or.ddit.ioc.lab1.dao.SampleDAOImpl_MariaDB"></bean>
+	<bean id="oracleDAO" class="kr.or.ddit.ioc.lab1.dao.SampleDAOImpl_Oracle" />
+<!-- 	new SampleServiceImpl(new SampleDAOImpl_Oracle()) -->
+	<bean id="sampleService_CI" class="kr.or.ddit.ioc.lab1.service.SampleServiceImpl">
+		<constructor-arg name="dao" ref="oracleDAO" />
+	</bean>
+	<bean id="sampleService_SI" 
+		class="kr.or.ddit.ioc.lab1.service.SampleServiceImpl"
+		init-method="init"
+		destroy-method="destroy"
+		>
+<!-- 		setter를 거꾸로 적용시킴 -->
+		<property name="dao" ref="mariaDAO" />
+	</bean>
+	
+<!-- 	스프링 컨테이너의 bean 관리 특성 -->
+<!-- 	1. 특별한 설정이 없는 한 등록된 bean을 singleton의 형태로 관리함. -->
+<!-- 			하나의 bean으로 등록된 객체가 하나 -> singleton -->
+<!-- 			하나의 bean에 대해 주입시마다 새로운 객체가 생성되는 구조. -> prototype -->
+<!-- 	2. 특별한 설정이 없는 한 컨테이너는 등록된 bean들이 일시에 한꺼번에 초기화시킴. -->
+<!-- 	3. 객체의 생성 순서 제어, depends-on -->
+<!-- 	4. 컨테이너는 bean들의 생명 주기 내에서 callback 구조를 형성함. -->
+
+<!-- 	
+		스프링 컨테이너의 종류 
+		ApplicationContext(컨테이너 최상위)
+			-> ConfigurableApplicationContext
+				-> standalone container
+				ClassPathXmlApplicationContext : 클래스패스 리소스 형태의 메타데이터 파일.
+				FileSystemXmlApplicationContext : 파일시스템 리소스 형태의 메타데이터 파일.
+				GenericXmlApplicationContext : 메타데이터 파일 검색 위치가 런타임에 결정.
+					"classpath:", "file:", "http:" ==> Resource Loader에 의해 IO 수행.
+				-> WebApplicationContext : web app contatiner
+-->
+
+</beans>

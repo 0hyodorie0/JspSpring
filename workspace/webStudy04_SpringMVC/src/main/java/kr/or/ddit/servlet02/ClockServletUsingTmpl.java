@@ -9,13 +9,15 @@ import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+
 /**
  * Template Method design pattern
  * 
  *
  */
 @WebServlet("/01/clock.tmpl")
-public class ClockServletUsingTmpl extends AbstractServletUsingTmpl {
+public class ClockServletUsingTmpl extends AbstractServletUsingTmpl{
 
 	@Override
 	protected Map<String, Object> getDataMap(HttpServletRequest req, HttpServletResponse resp)

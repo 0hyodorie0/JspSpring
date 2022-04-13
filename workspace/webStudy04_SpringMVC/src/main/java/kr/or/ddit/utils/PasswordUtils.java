@@ -10,10 +10,9 @@ public class PasswordUtils {
 			byte[] encrypted = md.digest(plain.getBytes());
 			String encoded = Base64.getEncoder().encodeToString(encrypted);
 			return encoded;
-		}catch(Exception e) {
+		}catch (Exception e) {
 			throw new RuntimeException(e);
 		}
-		
 	}
 	
 	public static boolean passwordMatcher(String plain, String encoded) {
